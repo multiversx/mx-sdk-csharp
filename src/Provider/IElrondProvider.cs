@@ -16,7 +16,7 @@ namespace Erdcsharp.Provider
         /// </summary>
         /// <param name="address">The address</param>
         /// <returns><see cref="AccountDataDto"/></returns>
-        Task<AccountDataDto> GetAccount(string address);
+        Task<AccountDto> GetAccount(string address);
 
         /// <summary>
         /// Returns an array of FungibleESDT Tokens that the specified address has interacted with (issued, sent or received).

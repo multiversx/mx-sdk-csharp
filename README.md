@@ -20,7 +20,7 @@ Elronford SDK for .NET Core is delivered via nuget package, therefore it can be 
 * Query values stored within Smart Contracts.
 
 # Documentation
-The [documentation](./docs/index.md) can be found following this link.
+The documentation and guides can be found at [Read the docs](./docs/index.md).
 
 # Change Log
 All notable changes will be documented in this file.

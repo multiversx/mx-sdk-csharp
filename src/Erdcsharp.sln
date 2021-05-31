@@ -36,7 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erdcsharp.IntegrationTests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{AFD4B8FF-CD82-4B93-9070-DABAB3F7774A}"
 	ProjectSection(SolutionItems) = preProject
-		..\docs\address.md = ..\docs\address.md
+		..\docs\advanced.md = ..\docs\advanced.md
+		..\docs\basic.md = ..\docs\basic.md
 		..\docs\index.md = ..\docs\index.md
 	EndProjectSection
 EndProject

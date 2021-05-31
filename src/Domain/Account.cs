@@ -26,11 +26,10 @@ namespace Erdcsharp.Domain
         public async Task Sync(IElrondProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
-            var account    = accountDto.Account;
 
-            Balance  = TokenAmount.From(account.Balance, Token.EGLD());
-            Nonce    = account.Nonce;
-            UserName = account.Username;
+            Balance  = TokenAmount.From(accountDto.Balance, Token.EGLD());
+            Nonce    = accountDto.Nonce;
+            UserName = accountDto.Username;
         }
 
         /// <summary>

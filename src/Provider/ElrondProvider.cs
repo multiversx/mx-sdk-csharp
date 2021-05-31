@@ -30,14 +30,14 @@ namespace Erdcsharp.Provider
             return result.Data;
         }
 
-        public async Task<AccountDataDto> GetAccount(string address)
+        public async Task<AccountDto> GetAccount(string address)
         {
             var response = await _httpClient.GetAsync($"address/{address}");
 
             var content = await response.Content.ReadAsStringAsync();
             var result  = JsonSerializerWrapper.Deserialize<ElrondGatewayResponseDto<AccountDataDto>>(content);
             result.EnsureSuccessStatusCode();
-            return result.Data;
+            return result.Data.Account;
         }
 
         public async Task<EsdtTokenDataDto> GetEsdtTokens(string address)
