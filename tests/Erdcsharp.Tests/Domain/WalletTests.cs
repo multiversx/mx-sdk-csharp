@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class WalletTests
     {
         private TestWalletFactory _walletFactory;
@@ -22,7 +22,7 @@ namespace Erdcsharp.UnitTests.Domain
         {
             // Act
             var alice = _walletFactory.Alice.GetAccount().Address;
-            var bob = _walletFactory.Bob.GetAccount().Address;
+            var bob   = _walletFactory.Bob.GetAccount().Address;
             var carol = _walletFactory.Carol.GetAccount().Address;
 
             // Assert
@@ -38,7 +38,7 @@ namespace Erdcsharp.UnitTests.Domain
 
             // Act
             var aliceSecretKey = _walletFactory.Alice.GetPrivateKey().ToHex();
-            var bobSecretKey = _walletFactory.Bob.GetPrivateKey().ToHex();
+            var bobSecretKey   = _walletFactory.Bob.GetPrivateKey().ToHex();
             var carolSecretKey = _walletFactory.Carol.GetPrivateKey().ToHex();
 
             // Assert
@@ -52,7 +52,7 @@ namespace Erdcsharp.UnitTests.Domain
         {
             // Arrange
             var secretKeyHex = "413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9";
-            var buffer = secretKeyHex.FromHex();
+            var buffer       = secretKeyHex.FromHex();
 
             // Act
             var wallet = new Wallet(buffer);
@@ -62,11 +62,11 @@ namespace Erdcsharp.UnitTests.Domain
         }
 
         [TestCase("413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9",
-            "0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1")]
+                  "0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1")]
         [TestCase("b8ca6f8203fb4b545a8e83c5384da033c415db155b53fb5b8eba7ff5a039d639",
-            "8049d639e5a6980d1cd2392abcce41029cda74a1563523a202f09641cc2618f8")]
+                  "8049d639e5a6980d1cd2392abcce41029cda74a1563523a202f09641cc2618f8")]
         [TestCase("e253a571ca153dc2aee845819f74bcc9773b0586edead15a94cb7235a5027436",
-            "b2a11555ce521e4944e09ab17549d85b487dcd26c84b5017a39e31a3670889ba")]
+                  "b2a11555ce521e4944e09ab17549d85b487dcd26c84b5017a39e31a3670889ba")]
         public void GetPublicKey_Should_Return_PublicKey(string secretKeyHex, string address)
         {
             // Arrange
@@ -84,7 +84,7 @@ namespace Erdcsharp.UnitTests.Domain
         public void Wallet_Should_Build_And_Decrypt_KeyFile()
         {
             // Arrange
-            var wallet = new Wallet("413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9");
+            var wallet         = new Wallet("413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9");
             var randomPassword = Guid.NewGuid().ToString();
 
             // Act
@@ -113,7 +113,7 @@ namespace Erdcsharp.UnitTests.Domain
 
             // Assert
             Assert.That(wallet.GetAccount().Address.Bech32,
-                Is.EqualTo("erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th"));
+                        Is.EqualTo("erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th"));
         }
 
         [TestCase("FakeData/KeyFiles/alice.json", "erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th")]
@@ -135,7 +135,8 @@ namespace Erdcsharp.UnitTests.Domain
         {
             // Arrange
             var wallet = new Wallet("1a927e2af5306a9bb2ea777f73e06ecc0ac9aaa72fb4ea3fecf659451394cccf");
-            var message = "{\"nonce\":0,\"value\":\"0\",\"receiver\":\"erd1cux02zersde0l7hhklzhywcxk4u9n4py5tdxyx7vrvhnza2r4gmq4vw35r\",\"sender\":\"erd1l453hd0gt5gzdp7czpuall8ggt2dcv5zwmfdf3sd3lguxseux2fsmsgldz\",\"gasPrice\":1000000000,\"gasLimit\":50000,\"data\":\"Zm9v\",\"chainID\":\"1\",\"version\":1}";
+            var message =
+                "{\"nonce\":0,\"value\":\"0\",\"receiver\":\"erd1cux02zersde0l7hhklzhywcxk4u9n4py5tdxyx7vrvhnza2r4gmq4vw35r\",\"sender\":\"erd1l453hd0gt5gzdp7czpuall8ggt2dcv5zwmfdf3sd3lguxseux2fsmsgldz\",\"gasPrice\":1000000000,\"gasLimit\":50000,\"data\":\"Zm9v\",\"chainID\":\"1\",\"version\":1}";
 
             // Act
             var signature = wallet.Sign(message);

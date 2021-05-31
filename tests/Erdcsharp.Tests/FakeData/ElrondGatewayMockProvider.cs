@@ -13,16 +13,16 @@ namespace Erdcsharp.UnitTests.FakeData
         {
             MockProvider = new Mock<IElrondProvider>();
             MockProvider.Setup(p => p.GetAccount(It.IsAny<string>())).ReturnsAsync((string address) =>
-                new AccountDataDto
-                {
-                    Account = new AccountDto
-                    {
-                        Address = address,
-                        Balance = "99882470417129999997",
-                        Nonce = 2555546,
-                        Username = "elrond"
-                    }
-                });
+                                                                                       new AccountDataDto
+                                                                                       {
+                                                                                           Account = new AccountDto
+                                                                                           {
+                                                                                               Address  = address,
+                                                                                               Balance  = "99882470417129999997",
+                                                                                               Nonce    = 2555546,
+                                                                                               Username = "elrond"
+                                                                                           }
+                                                                                       });
         }
 
         public void SetTransactionDetailResult(string finalStatus = "success", SmartContractResultDto[] scResult = null)
@@ -42,7 +42,7 @@ namespace Erdcsharp.UnitTests.FakeData
                         transactionResponse.Transaction.Status = "pending";
                         break;
                     case 1:
-                        transactionResponse.Transaction.Status = finalStatus;
+                        transactionResponse.Transaction.Status               = finalStatus;
                         transactionResponse.Transaction.SmartContractResults = scResult;
                         break;
                     case 2:

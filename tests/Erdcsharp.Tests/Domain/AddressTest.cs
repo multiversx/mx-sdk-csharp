@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class AddressTest
     {
         [Test]
@@ -37,7 +37,7 @@ namespace Erdcsharp.UnitTests.Domain
             // Arrange
             var aliceFoo = Address.FromHex(TestData.AliceHex);
             var aliceBar = Address.FromBech32(TestData.AliceBech32);
-            var bob= Address.FromHex(TestData.BobHex);
+            var bob      = Address.FromHex(TestData.BobHex);
 
             // Assert
             Assert.That(aliceBar, Is.EqualTo(aliceFoo));

@@ -32,9 +32,9 @@ namespace Erdcsharp.Domain.Values
 
             for (var i = 0; i < Fields.Length; i++)
             {
-                var field = Fields[i];
+                var field      = Fields[i];
                 var definition = definitions[i];
-                var fieldType = field.Value.Type;
+                var fieldType  = field.Value.Type;
 
                 if (fieldType.RustType != definition.Type.RustType)
                     throw new BinaryCodecException("field rustType vs. field definitions rustType");
@@ -65,7 +65,7 @@ namespace Erdcsharp.Domain.Values
             {
                 if (field.Value.Type.BinaryType == TypeValue.BinaryTypes.Struct)
                 {
-                    var json = field.Value.ToJson();
+                    var json       = field.Value.ToJson();
                     var jsonObject = JsonSerializerWrapper.Deserialize<object>(json);
                     dic.Add(field.Name, jsonObject);
                 }

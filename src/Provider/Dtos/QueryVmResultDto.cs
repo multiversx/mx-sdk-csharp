@@ -7,10 +7,8 @@
 
     public class QueryVmResultInnerDataDto
     {
-        public string[] ReturnData { get; set; }
-        public string ReturnCode { get; set; }
-        public string ReturnMessage { get; set; }
+        public string[] ReturnData    { get; set; }
+        public string   ReturnCode    { get; set; }
+        public string   ReturnMessage { get; set; }
     }
-
-
 }

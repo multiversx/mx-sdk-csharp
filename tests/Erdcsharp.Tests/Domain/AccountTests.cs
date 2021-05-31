@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class AccountTests
     {
         private Mock<IElrondProvider> _mockProvider;
@@ -43,9 +43,9 @@ namespace Erdcsharp.UnitTests.Domain
             {
                 Account = new AccountDto
                 {
-                    Address = address,
-                    Balance = "99882470417129999997",
-                    Nonce = 2555546,
+                    Address  = address,
+                    Balance  = "99882470417129999997",
+                    Nonce    = 2555546,
                     Username = "elrond"
                 }
             });

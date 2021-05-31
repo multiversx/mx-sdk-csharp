@@ -11,16 +11,16 @@ using NUnit.Framework;
 
 namespace Erdcsharp.IntegrationTests
 {
-    [TestFixture(Category = "Integration")]
+    [TestFixture(Category = "LongRunning", Description = "Smart contracts interaction usage")]
     public class SmartContractTests
     {
-        private IElrondProvider _provider;
+        private IElrondProvider   _provider;
         private TestWalletFactory _testWalletFactory;
 
         [SetUp]
         public void Setup()
         {
-            _provider = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
+            _provider          = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
             _testWalletFactory = new TestWalletFactory();
         }
 
@@ -28,20 +28,20 @@ namespace Erdcsharp.IntegrationTests
         public async Task Should_Deploy_Adder_SmartContract_And_Set_Initial_Value()
         {
             var networkConfig = await NetworkConfig.GetFromNetwork(_provider);
-            var alice = _testWalletFactory.Alice;
-            var aliceAccount = alice.GetAccount();
+            var alice         = _testWalletFactory.Alice;
+            var aliceAccount  = alice.GetAccount();
             await aliceAccount.Sync(_provider);
 
-            var code = CodeArtifact.FromFilePath("FakeData/SmartContracts/adder/adder.wasm");
+            var code         = CodeArtifact.FromFilePath("FakeData/SmartContracts/adder/adder.wasm");
             var codeMetadata = new CodeMetadata(false, true, false);
             var initialValue = NumericValue.BigUintValue(10);
 
             var deployTxRequest = TransactionRequest.CreateDeploySmartContractTransactionRequest(
-                networkConfig,
-                aliceAccount,
-                code,
-                codeMetadata,
-                initialValue);
+                                                                                                 networkConfig,
+                                                                                                 aliceAccount,
+                                                                                                 code,
+                                                                                                 codeMetadata,
+                                                                                                 initialValue);
 
             var deployTx = await deployTxRequest.Send(_provider, alice);
             await deployTx.AwaitExecuted(_provider);
@@ -55,16 +55,16 @@ namespace Erdcsharp.IntegrationTests
 
         private async Task CallSmartContract(NetworkConfig networkConfig, Address smartContractAddress)
         {
-            var wallet = _testWalletFactory.Bob;
+            var wallet  = _testWalletFactory.Bob;
             var account = wallet.GetAccount();
             await account.Sync(_provider);
             var txRequest = TransactionRequest.CreateCallSmartContractTransactionRequest(
-                networkConfig,
-                account,
-                smartContractAddress,
-                "add",
-                TokenAmount.Zero(),
-                NumericValue.BigUintValue(10));
+                                                                                         networkConfig,
+                                                                                         account,
+                                                                                         smartContractAddress,
+                                                                                         "add",
+                                                                                         TokenAmount.Zero(),
+                                                                                         NumericValue.BigUintValue(10));
 
             var tx = await txRequest.Send(_provider, wallet);
             await tx.AwaitExecuted(_provider);
@@ -78,10 +78,10 @@ namespace Erdcsharp.IntegrationTests
         {
             var outputType = TypeValue.BigUintTypeValue;
             var queryResult = await SmartContract.QuerySmartContract<NumericValue>(
-                _provider,
-                smartContractAddress,
-                outputType,
-                "getSum");
+                                                                                   _provider,
+                                                                                   smartContractAddress,
+                                                                                   outputType,
+                                                                                   "getSum");
 
             Assert.That(queryResult.Number.ToString(), Is.EqualTo("20"));
         }
@@ -90,10 +90,10 @@ namespace Erdcsharp.IntegrationTests
         {
             var abiDefinition = AbiDefinition.FromFilePath("FakeData/SmartContracts/adder/adder.abi.json");
             var queryResult = await SmartContract.QuerySmartContractWithAbiDefinition<NumericValue>(
-                _provider,
-                smartContractAddress,
-                abiDefinition,
-                "getSum");
+                                                                                                    _provider,
+                                                                                                    smartContractAddress,
+                                                                                                    abiDefinition,
+                                                                                                    "getSum");
 
             Assert.That(queryResult.Number.ToString(), Is.EqualTo("20"));
         }

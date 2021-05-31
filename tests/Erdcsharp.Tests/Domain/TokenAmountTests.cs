@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class TokenAmountTests
     {
         [SetUp]

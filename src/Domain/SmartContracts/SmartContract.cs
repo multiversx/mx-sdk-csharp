@@ -27,22 +27,22 @@ namespace Erdcsharp.Domain.SmartContracts
         /// <returns>The smart contract address</returns>
         public static Address ComputeAddress(Address ownerAddress, long nonce)
         {
-            var ownerPubKey = Converter.FromHexString(ownerAddress.Hex);
+            var ownerPubKey    = Converter.FromHexString(ownerAddress.Hex);
             var initialPadding = new byte[8];
-            var shardSelector = ownerPubKey.Skip(30).Take(2).ToArray();
+            var shardSelector  = ownerPubKey.Skip(30).Take(2).ToArray();
 
             var bigNonceBuffer = BitConverter.GetBytes(nonce);
 
             var bytesToHash = ConcatByteArrays(ownerPubKey, bigNonceBuffer);
-            var hash = CalculateHash(bytesToHash);
+            var hash        = CalculateHash(bytesToHash);
 
             var hashBytesToTake = hash.Skip(10).Take(20).ToArray();
-            var vmTypeBytes = Converter.FromHexString(Constants.ArwenVirtualMachine);
+            var vmTypeBytes     = Converter.FromHexString(Constants.ArwenVirtualMachine);
             var addressBytes = ConcatByteArrays(
-                initialPadding,
-                vmTypeBytes,
-                hashBytesToTake,
-                shardSelector);
+                                                initialPadding,
+                                                vmTypeBytes,
+                                                hashBytesToTake,
+                                                shardSelector);
 
             var erdAddress = Bech32Engine.Encode(Constants.Hrp, addressBytes);
             return Address.FromBech32(erdAddress);
@@ -77,7 +77,7 @@ namespace Erdcsharp.Domain.SmartContracts
             params IBinaryType[] args) where T : IBinaryType
         {
             var endpointDefinition = abiDefinition.GetEndpointDefinition(endpoint);
-            var outputs = endpointDefinition.Output.Select(o => o.Type).ToArray();
+            var outputs            = endpointDefinition.Output.Select(o => o.Type).ToArray();
             if (outputs.Length != 1)
                 throw new Exception("Bad output quantities in ABI definition. Should only be one.");
 
@@ -103,26 +103,20 @@ namespace Erdcsharp.Domain.SmartContracts
             params IBinaryType[] args) where T : IBinaryType
         {
             var arguments = args
-                .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
-                .ToArray();
+                           .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
+                           .ToArray();
 
-            var query = new QueryVmRequestDto
-            {
-                FuncName = endpoint,
-                Args = arguments,
-                ScAddress = address.Bech32,
-                Caller = caller?.Bech32
-            };
+            var query = new QueryVmRequestDto {FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32};
 
             var response = await provider.QueryVm(query);
-            var data = response.Data;
+            var data     = response.Data;
             if (data.ReturnData.Length > 1)
             {
                 var multiTypes = outputTypeValue.MultiTypes;
-                var optional = false;
+                var optional   = false;
                 if (outputTypeValue.BinaryType == TypeValue.BinaryTypes.Option)
                 {
-                    optional = true;
+                    optional   = true;
                     multiTypes = outputTypeValue.InnerType?.MultiTypes;
                 }
 
@@ -138,17 +132,17 @@ namespace Erdcsharp.Domain.SmartContracts
                 }
 
                 var multiValue = MultiValue.From(decodedValues.ToArray());
-                return (T) (optional ? OptionValue.NewProvided(multiValue) : (IBinaryType) multiValue);
+                return (T)(optional ? OptionValue.NewProvided(multiValue) : (IBinaryType)multiValue);
             }
 
             if (data.ReturnData.Length == 0)
             {
-                return (T) BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
+                return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
             }
 
-            var returnData = Convert.FromBase64String(data.ReturnData[0]);
+            var returnData      = Convert.FromBase64String(data.ReturnData[0]);
             var decodedResponse = BinaryCoder.DecodeTopLevel(returnData, outputTypeValue);
-            return (T) decodedResponse;
+            return (T)decodedResponse;
         }
 
         private static byte[] ConcatByteArrays(params byte[][] arrays)

@@ -4,13 +4,13 @@ namespace Erdcsharp.Domain.Values
 {
     public class OptionValue : BaseBinaryValue
     {
-        public TypeValue InnerType { get; }
-        public IBinaryType Value { get; }
+        public TypeValue   InnerType { get; }
+        public IBinaryType Value     { get; }
 
         private OptionValue(TypeValue type, TypeValue innerType = null, IBinaryType value = null) : base(type)
         {
             InnerType = innerType;
-            Value = value;
+            Value     = value;
         }
 
         public static OptionValue NewMissing()

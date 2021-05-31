@@ -66,6 +66,6 @@ namespace Erdcsharp.Manager
         Task TransferEsdtToken(Wallet wallet, EsdtToken token, Address receiver, BigInteger quantity);
 
         Task TransferEsdtTokenToSmartContract(Wallet wallet, EsdtToken token, Address smartContract,
-            string functionName, BigInteger quantity, params IBinaryType[] args);
+                                              string functionName, BigInteger quantity, params IBinaryType[] args);
     }
 }

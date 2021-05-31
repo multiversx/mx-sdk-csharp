@@ -6,18 +6,18 @@ namespace Erdcsharp.Domain
 {
     public class TokenAmount
     {
-        public Token Token { get; }
+        public Token      Token  { get; }
         public BigInteger Number { get; }
 
         private TokenAmount(long value, Token token)
         {
-            Token = token;
+            Token  = token;
             Number = new BigInteger(value);
         }
 
         private TokenAmount(string value, Token token)
         {
-            Token = token;
+            Token  = token;
             Number = BigInteger.Parse(value);
             if (Number.Sign == -1)
                 throw new InvalidTokenAmountException(value);
@@ -45,7 +45,7 @@ namespace Erdcsharp.Domain
             start = start < 0 ? 0 : start;
 
             var decimals = padded.Substring(start, Token.DecimalPrecision);
-            var integer = start == 0 ? "0" : padded.Substring(0, start);
+            var integer  = start == 0 ? "0" : padded.Substring(0, start);
 
             return $"{integer}.{decimals}";
         }
@@ -58,11 +58,11 @@ namespace Erdcsharp.Domain
         // ReSharper disable once InconsistentNaming
         public static TokenAmount EGLD(string value)
         {
-            var egld = Token.EGLD();
-            var split = value.Split('.');
+            var egld        = Token.EGLD();
+            var split       = value.Split('.');
             var integerPart = split.FirstOrDefault() ?? "0";
             var decimalPart = split.Length == 2 ? split[1] : string.Empty;
-            var full = $"{integerPart}{decimalPart.PadRight(egld.DecimalPrecision, '0')}";
+            var full        = $"{integerPart}{decimalPart.PadRight(egld.DecimalPrecision, '0')}";
             return new TokenAmount(full, Token.EGLD());
         }
 
@@ -74,10 +74,10 @@ namespace Erdcsharp.Domain
         /// <returns></returns>
         public static TokenAmount ESDT(string value, Token token)
         {
-            var split = value.Split('.');
+            var split       = value.Split('.');
             var integerPart = split.FirstOrDefault() ?? "0";
             var decimalPart = split.Length == 2 ? split[1] : string.Empty;
-            var full = $"{integerPart}{decimalPart.PadRight(token.DecimalPrecision, '0')}";
+            var full        = $"{integerPart}{decimalPart.PadRight(token.DecimalPrecision, '0')}";
             return new TokenAmount(full, token);
         }
 

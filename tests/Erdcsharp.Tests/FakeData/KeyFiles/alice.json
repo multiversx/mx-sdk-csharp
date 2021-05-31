@@ -4,7 +4,8 @@
   "address": "0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
   "bech32": "erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th",
   "crypto": {
-    "ciphertext": "4c41ef6fdfd52c39b1585a875eb3c86d30a315642d0e35bb8205b6372c1882f135441099b11ff76345a6f3a930b5665aaf9f7325a32c8ccd60081c797aa2d538",
+    "ciphertext":
+      "4c41ef6fdfd52c39b1585a875eb3c86d30a315642d0e35bb8205b6372c1882f135441099b11ff76345a6f3a930b5665aaf9f7325a32c8ccd60081c797aa2d538",
     "cipherparams": {
       "iv": "033182afaa1ebaafcde9ccc68a5eac31"
     },

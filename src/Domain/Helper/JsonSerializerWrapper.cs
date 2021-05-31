@@ -8,11 +8,7 @@ namespace Erdcsharp.Domain.Helper
     {
         public static string Serialize(object value)
         {
-            var serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            var serializerSettings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver()};
             return JsonConvert.SerializeObject(value, serializerSettings);
         }
 
@@ -23,11 +19,7 @@ namespace Erdcsharp.Domain.Helper
                 throw new ArgumentNullException(nameof(json));
             }
 
-            var serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            var serializerSettings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver()};
             return JsonConvert.DeserializeObject<TValue>(json, serializerSettings);
         }
     }

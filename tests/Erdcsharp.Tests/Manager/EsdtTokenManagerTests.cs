@@ -12,26 +12,26 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Manager
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class EsdtTokenManagerTests
     {
         private ElrondGatewayMockProvider _elrondGatewayMockProvider;
-        private IEsdtTokenManager _sut;
-        private TestWalletFactory _testWalletFactory;
-        private string _txHash;
+        private IEsdtTokenManager         _sut;
+        private TestWalletFactory         _testWalletFactory;
+        private string                    _txHash;
 
         [SetUp]
         public void Setup()
         {
             _elrondGatewayMockProvider = new ElrondGatewayMockProvider();
-            _testWalletFactory = new TestWalletFactory();
-            _txHash = Guid.NewGuid().ToString();
+            _testWalletFactory         = new TestWalletFactory();
+            _txHash                    = Guid.NewGuid().ToString();
             _elrondGatewayMockProvider.MockProvider.Setup(s => s.SendTransaction(It.IsAny<TransactionRequestDto>()))
-                .ReturnsAsync(
-                    new CreateTransactionResponseDataDto()
-                    {
-                        TxHash = _txHash
-                    });
+                                      .ReturnsAsync(
+                                                    new CreateTransactionResponseDataDto()
+                                                    {
+                                                        TxHash = _txHash
+                                                    });
             _sut = new EsdtTokenManager(_elrondGatewayMockProvider.MockProvider.Object, NetworkConfig.New());
         }
 
@@ -47,12 +47,12 @@ namespace Erdcsharp.UnitTests.Manager
                 new SmartContractResultDto
                 {
                     Nonce = 0,
-                    Data = $"ESDTTransfer@{Converter.ToHexString("TK-651452")}@d3c21bcecceda1000000"
+                    Data  = $"ESDTTransfer@{Converter.ToHexString("TK-651452")}@d3c21bcecceda1000000"
                 },
                 new SmartContractResultDto
                 {
                     Nonce = 150,
-                    Data = "@ok"
+                    Data  = "@ok"
                 }
             });
 
@@ -67,25 +67,25 @@ namespace Erdcsharp.UnitTests.Manager
         public async Task SetSpecialRole_Should_Passed()
         {
             // Arrange
-            var alice = _testWalletFactory.Alice;
+            var          alice           = _testWalletFactory.Alice;
             const string tokenIdentifier = "TK-651452";
 
             _elrondGatewayMockProvider.SetTransactionDetailResult();
 
             // Act
-            await _sut.SetSpecialRole(alice, tokenIdentifier, EsdtTokenTransactionRequest.NFTRoles.ESDTRoleNFTCreate);
+            await _sut.SetSpecialRole(alice, tokenIdentifier, Constants.EsdtNftSpecialRoles.EsdtRoleNftCreate);
 
             // Assert
             var expectedData =
-                $"setSpecialRole@{Converter.ToHexString(tokenIdentifier)}@{alice.GetAccount().Address.Hex}@{Converter.ToHexString(EsdtTokenTransactionRequest.NFTRoles.ESDTRoleNFTCreate)}";
+                $"setSpecialRole@{Converter.ToHexString(tokenIdentifier)}@{alice.GetAccount().Address.Hex}@{Converter.ToHexString(Constants.EsdtNftSpecialRoles.EsdtRoleNftCreate)}";
             var expectedEncodedData = Converter.ToBase64String(expectedData);
 
             _elrondGatewayMockProvider.MockProvider.Verify(
-                s => s.SendTransaction(It.Is<TransactionRequestDto>(t =>
-                    t.Data == expectedEncodedData &&
-                    t.Receiver ==Constants.SmartContractAddress.EsdtSmartContract &&
-                    t.Value == "0"
-                )), Times.Once);
+                                                           s => s.SendTransaction(It.Is<TransactionRequestDto>(t =>
+                                                                                                                   t.Data == expectedEncodedData &&
+                                                                                                                   t.Receiver == Constants.SmartContractAddress.EsdtSmartContract &&
+                                                                                                                   t.Value == "0"
+                                                                                                              )), Times.Once);
 
             Assert.Pass();
         }
@@ -94,7 +94,7 @@ namespace Erdcsharp.UnitTests.Manager
         public async Task CreateNftToken_Should_Return_TokenNonce()
         {
             // Arrange
-            var alice = _testWalletFactory.Alice;
+            var          alice           = _testWalletFactory.Alice;
             const string tokenIdentifier = "TK-651452";
 
             _elrondGatewayMockProvider.SetTransactionDetailResult(scResult: new[]
@@ -102,31 +102,31 @@ namespace Erdcsharp.UnitTests.Manager
                 new SmartContractResultDto
                 {
                     Nonce = 0,
-                    Data = "@ok@01"
+                    Data  = "@ok@01"
                 }
             });
 
             // Act
             var tokenId = await _sut.CreateNftToken(
-                alice,
-                tokenIdentifier,
-                BigInteger.One,
-                "My token name",
-                550,
-                new Dictionary<string, string>(),
-                new[] {new Uri("https://foo.bar")}
-            );
+                                                    alice,
+                                                    tokenIdentifier,
+                                                    BigInteger.One,
+                                                    "My token name",
+                                                    550,
+                                                    new Dictionary<string, string>(),
+                                                    new[] {new Uri("https://foo.bar")}
+                                                   );
 
             // Assert
             var expectedData =
                 $"ESDTNFTCreate@544B2D363531343532@01@4D7920746F6B656E206E616D65@0226@@@68747470733A2F2F666F6F2E6261722F";
             var expectedEncodedData = Converter.ToBase64String(expectedData);
             _elrondGatewayMockProvider.MockProvider.Verify(
-                s => s.SendTransaction(It.Is<TransactionRequestDto>(t =>
-                    t.Data == expectedEncodedData &&
-                    t.Receiver == alice.GetAccount().Address.Bech32 &&
-                    t.Value == "0"
-                )), Times.Once);
+                                                           s => s.SendTransaction(It.Is<TransactionRequestDto>(t =>
+                                                                                                                   t.Data == expectedEncodedData &&
+                                                                                                                   t.Receiver == alice.GetAccount().Address.Bech32 &&
+                                                                                                                   t.Value == "0"
+                                                                                                              )), Times.Once);
 
             // Assert
             Assert.That(tokenId, Is.EqualTo(1));

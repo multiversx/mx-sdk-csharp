@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class OptionBinaryCodecTests
     {
         private OptionBinaryCodec _sut;
@@ -24,7 +24,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var actual = _sut.EncodeTopLevel(optionValue);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo(""));
@@ -38,7 +38,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var actual = _sut.EncodeNested(optionValue);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo("00"));
@@ -52,7 +52,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var actual = _sut.EncodeTopLevel(optionValue);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo("01000C"));
@@ -66,11 +66,10 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var actual = _sut.EncodeNested(optionValue);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo("01000C"));
         }
-
     }
 }

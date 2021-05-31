@@ -9,11 +9,11 @@ namespace Erdcsharp.Domain
         {
         }
 
-        public string ChainId { get; set; }
-        public long GasPerDataByte { get; set; }
-        public long MinGasLimit { get; set; }
-        public long MinGasPrice { get; set; }
-        public int MinTransactionVersion { get; set; }
+        public string ChainId               { get; set; }
+        public long   GasPerDataByte        { get; set; }
+        public long   MinGasLimit           { get; set; }
+        public long   MinGasPrice           { get; set; }
+        public int    MinTransactionVersion { get; set; }
 
         /// <summary>
         /// Synchronize the configuration with the network
@@ -25,10 +25,10 @@ namespace Erdcsharp.Domain
             var constants = await provider.GetNetworkConfig();
             return new NetworkConfig
             {
-                ChainId = constants.Config.erd_chain_id,
-                GasPerDataByte = constants.Config.erd_gas_per_data_byte,
-                MinGasLimit = constants.Config.erd_min_gas_limit,
-                MinGasPrice = constants.Config.erd_min_gas_price,
+                ChainId               = constants.Config.erd_chain_id,
+                GasPerDataByte        = constants.Config.erd_gas_per_data_byte,
+                MinGasLimit           = constants.Config.erd_min_gas_limit,
+                MinGasPrice           = constants.Config.erd_min_gas_price,
                 MinTransactionVersion = constants.Config.erd_min_transaction_version
             };
         }

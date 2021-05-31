@@ -10,9 +10,9 @@ namespace Erdcsharp.Domain.Abi
 {
     public class AbiDefinition
     {
-        public string Name { get; set; }
-        public Abi.Endpoint[] Endpoints { get; set; }
-        public Dictionary<string, Abi.CustomTypes> Types { get; set; }
+        public string                              Name      { get; set; }
+        public Abi.Endpoint[]                      Endpoints { get; set; }
+        public Dictionary<string, Abi.CustomTypes> Types     { get; set; }
 
         public EndpointDefinition GetEndpointDefinition(string endpoint)
         {
@@ -20,7 +20,7 @@ namespace Erdcsharp.Domain.Abi
             if (data == null)
                 throw new Exception("Endpoint is not define in ABI");
 
-            var inputs = data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
+            var inputs  = data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
             var outputs = data.Outputs.Select(i => new FieldDefinition("", "", GetTypeValue(i.Type))).ToList();
             return new EndpointDefinition(endpoint, inputs.ToArray(), outputs.ToArray());
         }
@@ -28,18 +28,18 @@ namespace Erdcsharp.Domain.Abi
         private TypeValue GetTypeValue(string rustType)
         {
             var optional = new Regex("^optional<(.*)>$");
-            var multi = new Regex("^multi<(.*)>$");
+            var multi    = new Regex("^multi<(.*)>$");
 
             if (optional.IsMatch(rustType))
             {
-                var innerType = optional.Match(rustType).Groups[1].Value;
+                var innerType      = optional.Match(rustType).Groups[1].Value;
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.OptionValue(innerTypeValue);
             }
 
             if (multi.IsMatch(rustType))
             {
-                var innerTypes = multi.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
+                var innerTypes      = multi.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
                 var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
                 return TypeValue.MultiValue(innerTypeValues);
             }
@@ -52,12 +52,12 @@ namespace Erdcsharp.Domain.Abi
             {
                 var typeFromStruct = Types[rustType];
                 return TypeValue.StructValue(
-                    typeFromStruct.Type,
-                    typeFromStruct.Fields
-                        .ToList()
-                        .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
-                        .ToArray()
-                );
+                                             typeFromStruct.Type,
+                                             typeFromStruct.Fields
+                                                           .ToList()
+                                                           .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
+                                                           .ToArray()
+                                            );
             }
 
             return null;
@@ -71,7 +71,7 @@ namespace Erdcsharp.Domain.Abi
         public static AbiDefinition FromFilePath(string jsonFilePath)
         {
             var fileBytes = File.ReadAllBytes(jsonFilePath);
-            var json = Encoding.UTF8.GetString(fileBytes);
+            var json      = Encoding.UTF8.GetString(fileBytes);
             return FromJson(json);
         }
     }

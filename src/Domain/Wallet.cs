@@ -14,10 +14,10 @@ namespace Erdcsharp.Domain
 {
     public class Wallet
     {
-        private readonly byte[] _privateKey;
-        private readonly byte[] _publicKey;
-        private const string HdPrefix = "m/44'/508'/0'/0'";
-        private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
+        private readonly        byte[]                   _privateKey;
+        private readonly        byte[]                   _publicKey;
+        private const           string                   HdPrefix = "m/44'/508'/0'/0'";
+        private static readonly RNGCryptoServiceProvider RngCsp   = new RNGCryptoServiceProvider();
 
         public Wallet(string privateKeyHex)
             : this(Converter.FromHexString(privateKeyHex))
@@ -40,8 +40,8 @@ namespace Erdcsharp.Domain
         public Wallet(byte[] privateKey)
         {
             var privateKeyParameters = new Ed25519PrivateKeyParameters(privateKey, 0);
-            var publicKeyParameters = privateKeyParameters.GeneratePublicKey();
-            _publicKey = publicKeyParameters.GetEncoded();
+            var publicKeyParameters  = privateKeyParameters.GeneratePublicKey();
+            _publicKey  = publicKeyParameters.GetEncoded();
             _privateKey = privateKey;
         }
 
@@ -55,12 +55,12 @@ namespace Erdcsharp.Domain
         {
             try
             {
-                var bip39 = new BIP39();
+                var bip39   = new BIP39();
                 var seedHex = bip39.MnemonicToSeedHex(mnemonic, "");
 
-                var bip32 = new BIP32();
-                var hdPath = $"{HdPrefix}/{accountIndex}'";
-                var kv = bip32.DerivePath(hdPath, seedHex);
+                var bip32      = new BIP32();
+                var hdPath     = $"{HdPrefix}/{accountIndex}'";
+                var kv         = bip32.DerivePath(hdPath, seedHex);
                 var privateKey = kv.Key;
                 return new Wallet(privateKey);
             }
@@ -79,19 +79,19 @@ namespace Erdcsharp.Domain
         public static Wallet DeriveFromKeyFile(KeyFile keyFile, string secretPassword)
         {
             var saltBytes = Converter.FromHexString(keyFile.Crypto.Kdfparams.Salt);
-            var kdParams = keyFile.Crypto.Kdfparams;
+            var kdParams  = keyFile.Crypto.Kdfparams;
             var key = SCrypt.Generate(Encoding.UTF8.GetBytes(secretPassword), saltBytes, kdParams.N, kdParams.r,
-                kdParams.p, kdParams.dklen);
+                                      kdParams.p, kdParams.dklen);
 
             var rightPartOfKey = key.Skip(16).Take(16).ToArray();
-            var leftPartOfKey = key.Take(16).ToArray();
-            var mac = CreateSha256Signature(rightPartOfKey, keyFile.Crypto.Ciphertext);
+            var leftPartOfKey  = key.Take(16).ToArray();
+            var mac            = CreateSha256Signature(rightPartOfKey, keyFile.Crypto.Ciphertext);
             if (mac != keyFile.Crypto.Mac)
                 throw new Exception("MAC mismatch, possibly wrong password");
 
             var decipher = EncryptAes128Ctr(Converter.FromHexString(keyFile.Crypto.Ciphertext),
-                leftPartOfKey,
-                Converter.FromHexString(keyFile.Crypto.Cipherparams.Iv));
+                                            leftPartOfKey,
+                                            Converter.FromHexString(keyFile.Crypto.Cipherparams.Iv));
 
             var privateKey = Converter.FromHexString(decipher);
             return new Wallet(privateKey);
@@ -115,7 +115,7 @@ namespace Erdcsharp.Domain
         public string Sign(byte[] data)
         {
             var parameters = new Ed25519PrivateKeyParameters(_privateKey, 0);
-            var signer = new Ed25519Signer();
+            var signer     = new Ed25519Signer();
             signer.Init(true, parameters);
             signer.BlockUpdate(data, 0, data.Length);
             var signature = signer.GenerateSignature();
@@ -154,40 +154,37 @@ namespace Erdcsharp.Domain
             RngCsp.GetBytes(ivBytes);
 
             var salt = Converter.ToHexString(saltBytes).ToLowerInvariant();
-            var iv = Converter.ToHexString(ivBytes).ToLowerInvariant();
+            var iv   = Converter.ToHexString(ivBytes).ToLowerInvariant();
             var kdParams = new Crypto.KdfSructure
             {
                 dklen = 32,
-                Salt = salt,
-                N = 4096,
-                r = 8,
-                p = 1
+                Salt  = salt,
+                N     = 4096,
+                r     = 8,
+                p     = 1
             };
 
             var encodedPassword = Encoding.UTF8.GetBytes(password);
-            var key = SCrypt.Generate(encodedPassword, saltBytes, kdParams.N, kdParams.r, kdParams.p, kdParams.dklen);
-            var leftPart = key.Take(16).ToArray();
-            var rightPart = key.Skip(16).Take(16).ToArray();
-            var cipher = EncryptAes128Ctr(_privateKey, leftPart, ivBytes);
-            var mac = CreateSha256Signature(rightPart, cipher);
+            var key             = SCrypt.Generate(encodedPassword, saltBytes, kdParams.N, kdParams.r, kdParams.p, kdParams.dklen);
+            var leftPart        = key.Take(16).ToArray();
+            var rightPart       = key.Skip(16).Take(16).ToArray();
+            var cipher          = EncryptAes128Ctr(_privateKey, leftPart, ivBytes);
+            var mac             = CreateSha256Signature(rightPart, cipher);
 
             var keyFile = new KeyFile
             {
                 Version = 4,
-                Id = Guid.NewGuid().ToString(),
+                Id      = Guid.NewGuid().ToString(),
                 Address = Converter.ToHexString(_publicKey).ToLowerInvariant(),
-                Bech32 = Bech32Engine.Encode(Constants.Hrp, _publicKey),
+                Bech32  = Bech32Engine.Encode(Constants.Hrp, _publicKey),
                 Crypto = new Crypto
                 {
-                    Ciphertext = cipher,
-                    Cipherparams = new Crypto.CipherStructure()
-                    {
-                        Iv = iv
-                    },
-                    Cipher = "aes-128-ctr",
-                    Kdf = "scrypt",
-                    Kdfparams = kdParams,
-                    Mac = mac
+                    Ciphertext   = cipher,
+                    Cipherparams = new Crypto.CipherStructure() {Iv = iv},
+                    Cipher       = "aes-128-ctr",
+                    Kdf          = "scrypt",
+                    Kdfparams    = kdParams,
+                    Mac          = mac
                 }
             };
             return keyFile;
@@ -195,7 +192,7 @@ namespace Erdcsharp.Domain
 
         private static string CreateSha256Signature(byte[] key, string targetText)
         {
-            var data = Converter.FromHexString(targetText);
+            var    data = Converter.FromHexString(targetText);
             byte[] mac;
             using (var hmac = new HMACSHA256(key))
             {

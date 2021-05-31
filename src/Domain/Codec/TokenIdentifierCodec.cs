@@ -29,7 +29,7 @@ namespace Erdcsharp.Domain.Codec
         public byte[] EncodeNested(IBinaryType value)
         {
             var tokenIdentifierValue = Get(value);
-            var byteValue = new BytesValue(tokenIdentifierValue.Buffer, TypeValue.TokenIdentifierValue);
+            var byteValue            = new BytesValue(tokenIdentifierValue.Buffer, TypeValue.TokenIdentifierValue);
             return _bytesBinaryCodec.EncodeNested(byteValue);
         }
 

@@ -2,7 +2,7 @@
 {
     public class TransactionCostDataDto
     {
-        public long TxGasUnits { get; set; }
+        public long   TxGasUnits    { get; set; }
         public string ReturnMessage { get; set; }
     }
 }

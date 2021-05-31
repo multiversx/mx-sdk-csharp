@@ -16,11 +16,11 @@ namespace Erdcsharp.Domain
     public class EsdtToken
     {
         public TokenIdentifierValue TokenIdentifier { get; private set; }
-        public string Name { get; private set; }
-        public EsdtTokenType TokenType { get; private set; }
-        public BigInteger Balance { get; private set; }
-        public NftTokenData TokenData { get; private set; }
-        public EsdtTokenProperties Properties { get; private set; }
+        public string               Name            { get; private set; }
+        public EsdtTokenType        TokenType       { get; private set; }
+        public BigInteger           Balance         { get; private set; }
+        public NftTokenData         TokenData       { get; private set; }
+        public EsdtTokenProperties  Properties      { get; private set; }
 
         public static EsdtToken From(EsdtItemDto esdt, EsdtTokenProperties properties)
         {
@@ -29,33 +29,33 @@ namespace Erdcsharp.Domain
                 case EsdtTokenType.FungibleESDT:
                     return new EsdtToken
                     {
-                        Name = esdt.Name,
+                        Name            = esdt.Name,
                         TokenIdentifier = TokenIdentifierValue.From(esdt.TokenIdentifier),
-                        TokenType = properties.Type,
-                        Balance = BigInteger.Parse(esdt.Balance),
-                        Properties = properties,
-                        TokenData = null
+                        TokenType       = properties.Type,
+                        Balance         = BigInteger.Parse(esdt.Balance),
+                        Properties      = properties,
+                        TokenData       = null
                     };
                 case EsdtTokenType.NonFungibleESDT:
                 case EsdtTokenType.SemiFungibleESDT:
                     var uris = esdt.Uris
-                        .Select(u => new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(u))))
-                        .ToArray();
+                                   .Select(u => new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(u))))
+                                   .ToArray();
                     return new EsdtToken
                     {
                         Name = esdt.Name,
                         TokenIdentifier = TokenIdentifierValue.From(esdt.TokenIdentifier.Substring(0,
-                            esdt.TokenIdentifier.IndexOf('-') + 7)),
-                        TokenType = properties.Type,
-                        Balance = BigInteger.Parse(esdt.Balance),
+                                                                                                   esdt.TokenIdentifier.IndexOf('-') + 7)),
+                        TokenType  = properties.Type,
+                        Balance    = BigInteger.Parse(esdt.Balance),
                         Properties = properties,
                         TokenData = new NftTokenData
                         {
-                            TokenId = esdt.Nonce,
+                            TokenId   = esdt.Nonce,
                             Royalties = ushort.Parse(esdt.Royalties),
-                            Creator = Address.FromBech32(esdt.Creator),
-                            Uris = uris,
-                            Hash = esdt.Hash == null ? null : Converter.FromHexString(esdt.Hash),
+                            Creator   = Address.FromBech32(esdt.Creator),
+                            Uris      = uris,
+                            Hash      = esdt.Hash == null ? null : Converter.FromHexString(esdt.Hash),
                         }
                     };
                 default:
@@ -68,33 +68,33 @@ namespace Erdcsharp.Domain
             var token = esdt.TokenData;
             return new EsdtToken
             {
-                Name = token.Name,
-                Properties = properties,
+                Name            = token.Name,
+                Properties      = properties,
                 TokenIdentifier = TokenIdentifierValue.From(token.TokenIdentifier),
-                Balance = BigInteger.Parse(token.Balance),
-                TokenType = EsdtTokenType.FungibleESDT,
-                TokenData = null
+                Balance         = BigInteger.Parse(token.Balance),
+                TokenType       = EsdtTokenType.FungibleESDT,
+                TokenData       = null
             };
         }
 
         public class EsdtTokenProperties
         {
             public static async Task<EsdtTokenProperties> FromNetwork(IElrondProvider elrondProvider,
-                string tokenIdentifier)
+                                                                      string tokenIdentifier)
             {
                 var response = await elrondProvider.QueryVm(new QueryVmRequestDto
                 {
                     ScAddress = Constants.SmartContractAddress.EsdtSmartContract,
-                    FuncName = "getTokenProperties",
-                    Args = new[] {Encoding.UTF8.GetBytes(tokenIdentifier).ToHex()}
+                    FuncName  = "getTokenProperties",
+                    Args      = new[] {Encoding.UTF8.GetBytes(tokenIdentifier).ToHex()}
                 });
                 var properties = new EsdtTokenProperties();
-                var index = 0;
+                var index      = 0;
 
                 //See : https://docs.elrond.com/developers/esdt-tokens/#get-esdt-token-properties
                 foreach (var base64 in response.Data.ReturnData)
                 {
-                    var bytes = Convert.FromBase64String(base64);
+                    var bytes   = Convert.FromBase64String(base64);
                     var decoded = Encoding.UTF8.GetString(bytes);
                     switch (index)
                     {
@@ -102,7 +102,7 @@ namespace Erdcsharp.Domain
                             properties.Name = decoded;
                             break;
                         case 1:
-                            properties.Type = (EsdtTokenType) Enum.Parse(typeof(EsdtTokenType), decoded, true);
+                            properties.Type = (EsdtTokenType)Enum.Parse(typeof(EsdtTokenType), decoded, true);
                             break;
                         case 2:
                             properties.Address = Address.FromBytes(bytes);
@@ -114,12 +114,12 @@ namespace Erdcsharp.Domain
                             properties.BurnValue = BigInteger.Parse(decoded);
                             break;
                         default:
-                            var split = decoded.Split('-').ToArray();
-                            var propertyName = split[0];
+                            var split         = decoded.Split('-').ToArray();
+                            var propertyName  = split[0];
                             var propertyValue = split[1];
 
                             var property = properties.GetType().GetProperties().SingleOrDefault(p =>
-                                p.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
+                                                                                                    p.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
                             if (property != null)
                             {
                                 if (property.PropertyType.Name == "BigInteger")
@@ -129,7 +129,7 @@ namespace Erdcsharp.Domain
                                 else
                                 {
                                     property.SetValue(properties,
-                                        Convert.ChangeType(propertyValue, property.PropertyType), null);
+                                                      Convert.ChangeType(propertyValue, property.PropertyType), null);
                                 }
                             }
 
@@ -142,11 +142,11 @@ namespace Erdcsharp.Domain
                 return properties;
             }
 
-            public string Name { get; set; }
-            public EsdtTokenType Type { get; set; }
-            public Address Address { get; set; }
-            public BigInteger TotalSupply { get; set; }
-            public BigInteger BurnValue { get; set; }
+            public string        Name        { get; set; }
+            public EsdtTokenType Type        { get; set; }
+            public Address       Address     { get; set; }
+            public BigInteger    TotalSupply { get; set; }
+            public BigInteger    BurnValue   { get; set; }
 
             /// <summary>
             /// The decimal precision
@@ -207,11 +207,11 @@ namespace Erdcsharp.Domain
 
         public class NftTokenData
         {
-            public BigInteger TokenId { get; set; }
-            public byte[] Hash { get; set; }
-            public int Royalties { get; set; }
-            public Address Creator { get; set; }
-            public Uri[] Uris { get; set; }
+            public BigInteger TokenId   { get; set; }
+            public byte[]     Hash      { get; set; }
+            public int        Royalties { get; set; }
+            public Address    Creator   { get; set; }
+            public Uri[]      Uris      { get; set; }
         }
     }
 }

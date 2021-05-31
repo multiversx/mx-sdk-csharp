@@ -10,12 +10,12 @@ namespace Erdcsharp.Console.NET_Framework
     public class Program
     {
         public const string AliceSecretHex = "413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9";
-        public const string BobBech32 = "erd1spyavw0956vq68xj8y4tenjpq2wd5a9p2c6j8gsz7ztyrnpxrruqzu66jx";
+        public const string BobBech32      = "erd1spyavw0956vq68xj8y4tenjpq2wd5a9p2c6j8gsz7ztyrnpxrruqzu66jx";
 
         public static async Task Main(string[] args)
         {
-            var provider = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
-            var wallet = new Wallet(AliceSecretHex);
+            var provider  = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
+            var wallet    = new Wallet(AliceSecretHex);
             var constants = await NetworkConfig.GetFromNetwork(provider);
 
             await SynchronizingNetworkParameter(provider);
@@ -52,7 +52,7 @@ namespace Erdcsharp.Console.NET_Framework
         {
             System.Console.WriteLine("CreatingValueTransferTransactions");
 
-            var sender = wallet.GetAccount();
+            var sender   = wallet.GetAccount();
             var receiver = Address.FromBech32(BobBech32);
             await sender.Sync(provider);
 

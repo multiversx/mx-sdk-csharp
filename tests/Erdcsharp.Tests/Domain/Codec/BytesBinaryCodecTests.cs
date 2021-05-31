@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class BytesBinaryCodecTests
     {
         private BytesBinaryCodec _sut;
@@ -40,7 +40,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var actual = _sut.EncodeNested(value);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.AreEqual(buffer.Length + 4, actual.Length);
@@ -52,13 +52,13 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var expected = "FDB32E9ED34CAF6009834C5A5BEF293097EA39698B3E82EFD8C71183CB731B42";
-            var buffer = Convert.FromHexString(expected);
-            var value = new BytesValue(buffer, TypeValue.BytesValue);
+            var buffer   = Convert.FromHexString(expected);
+            var value    = new BytesValue(buffer, TypeValue.BytesValue);
 
             // Act
             var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, TypeValue.BytesValue);
-            var hex = Convert.ToHexString((actual.Value.ValueOf<BytesValue>()).Buffer);
+            var actual  = _sut.DecodeNested(encoded, TypeValue.BytesValue);
+            var hex     = Convert.ToHexString((actual.Value.ValueOf<BytesValue>()).Buffer);
 
             // Assert
             Assert.AreEqual(expected, hex);

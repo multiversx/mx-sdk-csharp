@@ -7,7 +7,7 @@ namespace Erdcsharp.Domain.Codec
     {
         public string Type => TypeValue.BinaryTypes.Boolean;
 
-        private const byte True = 0x01;
+        private const byte True  = 0x01;
         private const byte False = 0x00;
 
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)

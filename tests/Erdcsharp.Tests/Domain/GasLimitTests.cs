@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class GasLimitTests
     {
         private IElrondProvider _elrondProvider;
@@ -20,9 +20,9 @@ namespace Erdcsharp.UnitTests.Domain
             {
                 Config = new ConfigDto
                 {
-                    erd_min_gas_limit = 50000,
+                    erd_min_gas_limit     = 50000,
                     erd_gas_per_data_byte = 1500,
-                    erd_min_gas_price = 1000000000
+                    erd_min_gas_price     = 1000000000
                 }
             });
             _elrondProvider = mock.Object;
@@ -32,8 +32,8 @@ namespace Erdcsharp.UnitTests.Domain
         public async Task GasLimit_Should_Compute_Gas_ForTransfer()
         {
             // Arrange
-            var constants = await NetworkConfig.GetFromNetwork(_elrondProvider);
-            var address = Address.FromBech32("erd1qqqqqqqqqqqqqpgq3wltgm6g8n6telq3wz2apgjqcydladdtu4cq3ch0l0");
+            var constants          = await NetworkConfig.GetFromNetwork(_elrondProvider);
+            var address            = Address.FromBech32("erd1qqqqqqqqqqqqqpgq3wltgm6g8n6telq3wz2apgjqcydladdtu4cq3ch0l0");
             var transactionRequest = TransactionRequest.Create(new Account(address), constants);
 
             transactionRequest.SetData("KLJHGFhjbnklmjghfdhfkjl");

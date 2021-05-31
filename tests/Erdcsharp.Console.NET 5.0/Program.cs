@@ -19,24 +19,24 @@ namespace Erdcsharp.Console
     {
         public static async Task Main(string[] args)
         {
-            var provider = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
-            const string password = "&KEiHn!rdBTRCPtaF9Bf";
-            const string address = "erd17rnvj9shx2x9vh2ckw0nf53vvlylj6235lmrhu668rg2c9a8mxjqvjrhq5";
-            var keyFile = KeyFile.FromFilePath($"Wallets/{address}.json");
-            var wallet = Wallet.DeriveFromKeyFile(keyFile, password);
-            var networkConfig = await NetworkConfig.GetFromNetwork(provider);
-            
+            var          provider      = new ElrondProvider(new HttpClient(), new ElrondNetworkConfiguration(Network.TestNet));
+            const string password      = "&KEiHn!rdBTRCPtaF9Bf";
+            const string address       = "erd17rnvj9shx2x9vh2ckw0nf53vvlylj6235lmrhu668rg2c9a8mxjqvjrhq5";
+            var          keyFile       = KeyFile.FromFilePath($"Wallets/{address}.json");
+            var          wallet        = Wallet.DeriveFromKeyFile(keyFile, password);
+            var          networkConfig = await NetworkConfig.GetFromNetwork(provider);
+
             //var sc = await DeploySmartContract(provider, networkConfig, wallet, "SmartContracts/auction/auction.wasm");
-            
+
             await SynchronizingNetworkParameter();
             await SynchronizingAnAccountObject(provider);
 
             //await CreatingValueTransferTransactions(provider, constants, wallet);
 
             var token = await CreateNFTTokenThenTransfer(
-                new EsdtTokenManager(provider, networkConfig),
-                provider,
-                wallet);
+                                                         new EsdtTokenManager(provider, networkConfig),
+                                                         provider,
+                                                         wallet);
 
             // This sc is already deployed
             //var auction = await DeploySmartContract(provider, constants, wallet, "SmartContracts/auction/auction.wasm");
@@ -54,8 +54,8 @@ namespace Erdcsharp.Console
         private static async Task SynchronizingNetworkParameter()
         {
             System.Console.WriteLine("SynchronizingNetworkParameter");
-            var client = new HttpClient {BaseAddress = new Uri("https://testnet-gateway.elrond.com")};
-            var provider = new ElrondProvider(client);
+            var client    = new HttpClient {BaseAddress = new Uri("https://testnet-gateway.elrond.com")};
+            var provider  = new ElrondProvider(client);
             var constants = await NetworkConfig.GetFromNetwork(provider);
             System.Console.WriteLine("MinGasPrice {0}", constants.MinGasPrice);
             System.Console.WriteLine("ChainId {0}", constants.ChainId);
@@ -78,12 +78,12 @@ namespace Erdcsharp.Console
         }
 
         private static async Task CreatingValueTransferTransactions(IElrondProvider provider,
-            NetworkConfig networkConfig,
-            Wallet wallet)
+                                                                    NetworkConfig networkConfig,
+                                                                    Wallet wallet)
         {
             System.Console.WriteLine("CreatingValueTransferTransactions");
 
-            var sender = wallet.GetAccount();
+            var sender   = wallet.GetAccount();
             var receiver = Address.FromBech32("erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th");
             await sender.Sync(provider);
 
@@ -101,8 +101,8 @@ namespace Erdcsharp.Console
         }
 
         private static async Task QueryAdderSmartContract(IElrondProvider provider, NetworkConfig networkConfig,
-            Wallet wallet,
-            Address scAddress)
+                                                          Wallet wallet,
+                                                          Address scAddress)
         {
             System.Console.WriteLine("QueryAdderSmartContract");
 
@@ -110,9 +110,9 @@ namespace Erdcsharp.Console
             await account.Sync(provider);
 
             var queryTransaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig, account,
-                scAddress,
-                "getSum",
-                TokenAmount.Zero());
+                                                                                                scAddress,
+                                                                                                "getSum",
+                                                                                                TokenAmount.Zero());
 
             var transaction = await queryTransaction.Send(provider, wallet);
             await transaction.AwaitExecuted(provider);
@@ -126,7 +126,7 @@ namespace Erdcsharp.Console
         }
 
         private static async Task QueryAuctionSmartContractWithoutAbi(IElrondProvider provider, Address scAddress,
-            EsdtToken token)
+                                                                      EsdtToken token)
         {
             System.Console.WriteLine("QueryAuctionSmartContractWithoutAbi");
 
@@ -151,13 +151,13 @@ namespace Erdcsharp.Console
             var optionValue = TypeValue.OptionValue(auction);
 
             var results = await SmartContract.QuerySmartContract<OptionValue>(
-                provider,
-                scAddress,
-                optionValue,
-                "getFullAuctionData",
-                null,
-                token.TokenIdentifier,
-                NumericValue.BigUintValue(token.TokenData.TokenId));
+                                                                              provider,
+                                                                              scAddress,
+                                                                              optionValue,
+                                                                              "getFullAuctionData",
+                                                                              null,
+                                                                              token.TokenIdentifier,
+                                                                              NumericValue.BigUintValue(token.TokenData.TokenId));
 
             var fullAuctionData = results.ToObject<FullAuctionData>();
             System.Console.WriteLine("PaymentToken.TokenType {0}", fullAuctionData.PaymentToken.TokenType);
@@ -172,13 +172,13 @@ namespace Erdcsharp.Console
 
             var abiDefinition = AbiDefinition.FromFilePath("SmartContracts/auction/auction.abi.json");
             var opt = await SmartContract.QuerySmartContractWithAbiDefinition<OptionValue>(
-                provider,
-                scAddress,
-                abiDefinition,
-                "getMinMaxBid",
-                null,
-                TokenIdentifierValue.From("TSTKR-209ea0"),
-                NumericValue.U64Value(3));
+                                                                                           provider,
+                                                                                           scAddress,
+                                                                                           abiDefinition,
+                                                                                           "getMinMaxBid",
+                                                                                           null,
+                                                                                           TokenIdentifierValue.From("TSTKR-209ea0"),
+                                                                                           NumericValue.U64Value(3));
 
             // Need to use the value define in the ABI file (Here it's a StructValue)
             if (opt.IsSet())
@@ -188,13 +188,13 @@ namespace Erdcsharp.Console
             }
 
             var optDeadline = await SmartContract.QuerySmartContractWithAbiDefinition<OptionValue>(
-                provider,
-                scAddress,
-                abiDefinition,
-                "getDeadline",
-                null,
-                TokenIdentifierValue.From("TSTKR-209ea0"),
-                NumericValue.U64Value(3));
+                                                                                                   provider,
+                                                                                                   scAddress,
+                                                                                                   abiDefinition,
+                                                                                                   "getDeadline",
+                                                                                                   null,
+                                                                                                   TokenIdentifierValue.From("TSTKR-209ea0"),
+                                                                                                   NumericValue.U64Value(3));
 
             // Need to use the value define in the ABI file (Here it's a StructValue)
             if (optDeadline.IsSet())
@@ -207,19 +207,19 @@ namespace Erdcsharp.Console
         }
 
         private static async Task QueryAuctionSmartContractWithAbi(IElrondProvider provider, Address scAddress,
-            EsdtToken token)
+                                                                   EsdtToken token)
         {
             System.Console.WriteLine("QueryAuctionSmartContractWithAbi");
 
             var abiDefinition = AbiDefinition.FromFilePath("SmartContracts/auction/auction.abi.json");
             var optFullAuctionData = await SmartContract.QuerySmartContractWithAbiDefinition<OptionValue>(
-                provider,
-                scAddress,
-                abiDefinition,
-                "getFullAuctionData",
-                null,
-                token.TokenIdentifier,
-                NumericValue.BigUintValue(token.TokenData.TokenId));
+                                                                                                          provider,
+                                                                                                          scAddress,
+                                                                                                          abiDefinition,
+                                                                                                          "getFullAuctionData",
+                                                                                                          null,
+                                                                                                          token.TokenIdentifier,
+                                                                                                          NumericValue.BigUintValue(token.TokenData.TokenId));
 
             // Need to use the value define in the ABI file (Here it's a StructValue)
             if (optFullAuctionData.IsSet())
@@ -230,12 +230,12 @@ namespace Erdcsharp.Console
             System.Console.WriteLine($"optFullAuctionData : {optFullAuctionData}");
 
             var optDeadline = await SmartContract.QuerySmartContractWithAbiDefinition<OptionValue>(
-                provider,
-                scAddress,
-                abiDefinition,
-                "getDeadline", null,
-                TokenIdentifierValue.From("TSTKR-209ea0"),
-                NumericValue.U64Value(3));
+                                                                                                   provider,
+                                                                                                   scAddress,
+                                                                                                   abiDefinition,
+                                                                                                   "getDeadline", null,
+                                                                                                   TokenIdentifierValue.From("TSTKR-209ea0"),
+                                                                                                   NumericValue.U64Value(3));
 
             // Need to use the value define in the ABI file (Here it's a StructValue)
             if (optDeadline.IsSet())
@@ -248,8 +248,8 @@ namespace Erdcsharp.Console
         }
 
         private static async Task CallAdderSmartContract(IElrondProvider provider, NetworkConfig networkConfig,
-            Wallet wallet,
-            Address scAddress)
+                                                         Wallet wallet,
+                                                         Address scAddress)
         {
             System.Console.WriteLine("CallAdderSmartContract");
             var account = wallet.GetAccount();
@@ -257,13 +257,13 @@ namespace Erdcsharp.Console
 
             // Call 'add' method
             var addRequest = TransactionRequest.CreateCallSmartContractTransactionRequest(
-                networkConfig,
-                account,
-                scAddress,
-                "add",
-                TokenAmount.Zero(),
-                NumericValue.BigIntValue(12)
-            );
+                                                                                          networkConfig,
+                                                                                          account,
+                                                                                          scAddress,
+                                                                                          "add",
+                                                                                          TokenAmount.Zero(),
+                                                                                          NumericValue.BigIntValue(12)
+                                                                                         );
 
             var addRequestTransaction = await addRequest.Send(provider, wallet);
             await addRequestTransaction.AwaitExecuted(provider);
@@ -272,12 +272,12 @@ namespace Erdcsharp.Console
             // Query VM
             var result = await provider.QueryVm(new QueryVmRequestDto
             {
-                FuncName = "getSum",
+                FuncName  = "getSum",
                 ScAddress = scAddress.Bech32
             });
 
             var sumBytes = Convert.FromBase64String(result.Data.ReturnData[0]);
-            var sumHex = Convert.ToHexString(sumBytes);
+            var sumHex   = Convert.ToHexString(sumBytes);
             System.Console.WriteLine($"sumHex : {sumHex}");
             System.Console.WriteLine("-*-*-*-*-*" + Environment.NewLine);
         }
@@ -294,15 +294,15 @@ namespace Erdcsharp.Console
 
             var wasmFile = CodeArtifact.FromFilePath(filePath);
             var deployRequest = TransactionRequest.CreateDeploySmartContractTransactionRequest(
-                networkConfig,
-                account,
-                wasmFile,
-                new CodeMetadata(false, true, false),
-                NumericValue.BigIntValue(5));
+                                                                                               networkConfig,
+                                                                                               account,
+                                                                                               wasmFile,
+                                                                                               new CodeMetadata(false, true, false),
+                                                                                               NumericValue.BigIntValue(5));
 
             // Get the deployed smart contract address based on account address and transaction nonce
             var smartContractAddress = SmartContract.ComputeAddress(account.Address, account.Nonce);
-            var deployTransaction = await deployRequest.Send(provider, wallet);
+            var deployTransaction    = await deployRequest.Send(provider, wallet);
 
             await deployTransaction.AwaitExecuted(provider);
             deployTransaction.EnsureTransactionSuccess();
@@ -326,8 +326,7 @@ namespace Erdcsharp.Console
 
 
             System.Console.WriteLine($"[{DateTime.UtcNow:O}] SetSpecialRole");
-            await tokenManager.SetSpecialRole(wallet, tokenIdentifier,
-                EsdtTokenTransactionRequest.NFTRoles.ESDTRoleNFTCreate);
+            await tokenManager.SetSpecialRole(wallet, tokenIdentifier, Constants.EsdtNftSpecialRoles.EsdtRoleNftCreate);
             System.Console.WriteLine($"[{DateTime.UtcNow:O}] SetSpecialRole - Result : Ok ");
             var roles = await tokenManager.GetSpecialRole(tokenIdentifier);
             foreach (var role in roles)
@@ -336,23 +335,23 @@ namespace Erdcsharp.Console
             }
 
             System.Console.WriteLine($"[{DateTime.UtcNow:O}] CreateNftToken");
-            var tokenId = await tokenManager.CreateNftToken(wallet, tokenIdentifier, 
-                BigInteger.One,
-                "My beautiful token xoxoxoxoxo",
-                500,
-                new Dictionary<string, string>()
-                {
-                    {"Artist", "Famous artist"},
-                    {"Duration", "03.17"}
-                },
-                new[]
-                {
-                    new Uri("https://www.google.fr")
-                }, Convert.FromHexString("5589558955895589558955895589"));
+            var tokenId = await tokenManager.CreateNftToken(wallet, tokenIdentifier,
+                                                            BigInteger.One,
+                                                            "My beautiful token",
+                                                            500,
+                                                            new Dictionary<string, string>()
+                                                            {
+                                                                {"Artist", "Famous artist"},
+                                                                {"Duration", "03.17"}
+                                                            },
+                                                            new[]
+                                                            {
+                                                                new Uri("https://www.google.fr")
+                                                            }, Convert.FromHexString("5589558955895589558955895589"));
 
             System.Console.WriteLine($"[{DateTime.UtcNow:O}] CreateNftToken - Result : {tokenId}");
             var token = await tokenManager.GetEsdtNonFungibleToken(wallet.GetAccount().Address, tokenIdentifier,
-                tokenId);
+                                                                   tokenId);
             if (false)
             {
                 System.Console.WriteLine($"[{DateTime.UtcNow:O}] TransferNftToken");
@@ -365,25 +364,25 @@ namespace Erdcsharp.Console
 
             var unixTime = (ulong) ((DateTimeOffset) DateTime.Now.AddMinutes(15)).ToUnixTimeSeconds();
             await tokenManager.TransferEsdtTokenToSmartContract(
-                wallet,
-                token,
-                auction,
-                "auctionToken",
-                BigInteger.One,
-                NumericValue.TokenAmount(TokenAmount.EGLD("0.1")),
-                NumericValue.TokenAmount(TokenAmount.EGLD("2")),
-                NumericValue.U64Value(unixTime),
-                TokenIdentifierValue.EGLD());
+                                                                wallet,
+                                                                token,
+                                                                auction,
+                                                                "auctionToken",
+                                                                BigInteger.One,
+                                                                NumericValue.TokenAmount(TokenAmount.EGLD("0.1")),
+                                                                NumericValue.TokenAmount(TokenAmount.EGLD("2")),
+                                                                NumericValue.U64Value(unixTime),
+                                                                TokenIdentifierValue.EGLD());
 
             var abiDefinition = AbiDefinition.FromFilePath("SmartContracts/auction/auction.abi.json");
             var optFullAuctionData = await SmartContract.QuerySmartContractWithAbiDefinition<OptionValue>(
-                provider,
-                auction,
-                abiDefinition,
-                "getFullAuctionData",
-                null,
-                token.TokenIdentifier,
-                NumericValue.BigUintValue(token.TokenData.TokenId));
+                                                                                                          provider,
+                                                                                                          auction,
+                                                                                                          abiDefinition,
+                                                                                                          "getFullAuctionData",
+                                                                                                          null,
+                                                                                                          token.TokenIdentifier,
+                                                                                                          NumericValue.BigUintValue(token.TokenData.TokenId));
 
             // Need to use the value define in the ABI file (Here it's a StructValue)
             if (optFullAuctionData.IsSet())

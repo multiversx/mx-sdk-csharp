@@ -5,16 +5,16 @@ namespace Erdcsharp.Domain
 {
     public class Account
     {
-        public Address Address { get; }
-        public TokenAmount Balance { get; private set; }
-        public long Nonce { get; private set; }
-        public string UserName { get; private set; }
+        public Address     Address  { get; }
+        public TokenAmount Balance  { get; private set; }
+        public long        Nonce    { get; private set; }
+        public string      UserName { get; private set; }
 
         public Account(Address address)
         {
-            Address = address;
-            Nonce = 0;
-            Balance = TokenAmount.Zero();
+            Address  = address;
+            Nonce    = 0;
+            Balance  = TokenAmount.Zero();
             UserName = null;
         }
 
@@ -26,10 +26,10 @@ namespace Erdcsharp.Domain
         public async Task Sync(IElrondProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
-            var account = accountDto.Account;
+            var account    = accountDto.Account;
 
-            Balance = TokenAmount.From(account.Balance, Token.EGLD());
-            Nonce = account.Nonce;
+            Balance  = TokenAmount.From(account.Balance, Token.EGLD());
+            Nonce    = account.Nonce;
             UserName = account.Username;
         }
 

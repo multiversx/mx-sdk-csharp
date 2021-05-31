@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class BooleanBinaryCodecTests
     {
         private BooleanBinaryCodec _sut;
@@ -19,7 +19,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         public void DecodeNested_True()
         {
             // Arrange
-            var buffer = new byte[] { 0x01 };
+            var buffer = new byte[] {0x01};
 
             // Act
             var actual = _sut.DecodeNested(buffer, TypeValue.BooleanValue);
@@ -32,7 +32,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         public void DecodeNested_False()
         {
             // Arrange
-            var buffer = new byte[] { 0x00 };
+            var buffer = new byte[] {0x00};
 
             // Act
             var actual = _sut.DecodeNested(buffer, TypeValue.BooleanValue);
@@ -71,12 +71,11 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         }
 
 
-
         [Test]
         public void DecodeTop_True()
         {
             // Arrange
-            var buffer = new byte[] { 0x01 };
+            var buffer = new byte[] {0x01};
 
             // Act
             var actual = _sut.DecodeTopLevel(buffer, TypeValue.BooleanValue);
@@ -89,7 +88,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         public void DecodeTop_False()
         {
             // Arrange
-            var buffer = new byte[] { 0x00 };
+            var buffer = new byte[] {0x00};
 
             // Act
             var actual = _sut.DecodeTopLevel(buffer, TypeValue.BooleanValue);

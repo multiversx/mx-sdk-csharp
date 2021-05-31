@@ -7,7 +7,7 @@ namespace Erdcsharp.Domain.Values
         public TokenIdentifierValue(byte[] data, TypeValue type) : base(type)
         {
             Buffer = data;
-            Value = Encoding.UTF8.GetString(data);
+            Value  = Encoding.UTF8.GetString(data);
         }
 
         public string Value { get; }

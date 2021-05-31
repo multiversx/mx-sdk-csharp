@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class NumericBinaryCodecTests
     {
         private NumericBinaryCodec _sut;
@@ -34,8 +34,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U8Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Converter.ToHexString(encoded);
 
             // Assert
@@ -52,8 +52,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I8Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -69,8 +69,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U16Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -87,8 +87,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I16Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -104,8 +104,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U32Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -122,8 +122,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I32Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -139,8 +139,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U64Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -157,8 +157,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I64Value(number);
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -174,8 +174,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.BigUintValue(BigInteger.Parse(number));
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -192,8 +192,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.BigIntValue(BigInteger.Parse(number));
             // Act
-            var encoded = _sut.EncodeTopLevel(value);
-            var actual = _sut.DecodeTopLevel(encoded, value.Type);
+            var encoded          = _sut.EncodeTopLevel(value);
+            var actual           = _sut.DecodeTopLevel(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -210,8 +210,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U8Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -228,8 +228,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I8Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -245,8 +245,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U16Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -263,8 +263,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I16Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -280,8 +280,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U32Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -298,8 +298,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I32Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -315,8 +315,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.U64Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -333,8 +333,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.I64Value(number);
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -350,8 +350,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.BigUintValue(BigInteger.Parse(number));
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -368,8 +368,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             // Arrange
             var value = NumericValue.BigIntValue(BigInteger.Parse(number));
             // Act
-            var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var encoded          = _sut.EncodeNested(value);
+            var actual           = _sut.DecodeNested(encoded, value.Type);
             var actualHexEncoded = Convert.ToHexString(encoded);
 
             // Assert
@@ -384,7 +384,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
 
             // Act
             var encoded = _sut.EncodeNested(value);
-            var actual = _sut.DecodeNested(encoded, value.Type);
+            var actual  = _sut.DecodeNested(encoded, value.Type);
 
             // Assert
             var balance = actual.Value.ValueOf<NumericValue>();

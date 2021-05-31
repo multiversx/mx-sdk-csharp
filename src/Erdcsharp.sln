@@ -11,7 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4C11B2A7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89BE6A83-2144-4EB2-A314-B9FCA2CFFD90}"
 	ProjectSection(SolutionItems) = preProject
-		..\LICENSE = ..\LICENSE
+		.editorconfig = .editorconfig
+		..\LICENSE.txt = ..\LICENSE.txt
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -31,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erdcsharp.Console.NET 5.0",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7A07DF88-D06A-479A-8E54-FB7FADE26C81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erdcsharp.IntegrationTests", "..\tests\Erdcsharp.IntegrationTests\Erdcsharp.IntegrationTests.csproj", "{E48A4A6E-37D7-4878-82F2-A6CB7E9EC06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erdcsharp.IntegrationTests", "..\tests\Erdcsharp.IntegrationTests\Erdcsharp.IntegrationTests.csproj", "{E48A4A6E-37D7-4878-82F2-A6CB7E9EC06F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

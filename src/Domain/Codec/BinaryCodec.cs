@@ -52,7 +52,7 @@ namespace Erdcsharp.Domain.Codec
             var codec = _codecs.SingleOrDefault(c => c.Type == value.Type.BinaryType);
             if (codec == null)
                 throw new BinaryCodecException($"No codec found for {value.Type.BinaryType}");
-           
+
             var encode = codec.EncodeNested(value);
             return encode;
         }
@@ -62,7 +62,7 @@ namespace Erdcsharp.Domain.Codec
             var codec = _codecs.SingleOrDefault(c => c.Type == value.Type.BinaryType);
             if (codec == null)
                 throw new BinaryCodecException($"No codec found for {value.Type.BinaryType}");
-            
+
             var encode = codec.EncodeTopLevel(value);
             return encode;
         }

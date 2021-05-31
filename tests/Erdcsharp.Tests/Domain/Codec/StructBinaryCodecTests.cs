@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class StructBinaryCodecTests
     {
         private StructBinaryCodec _sut;
@@ -23,11 +23,11 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var fieldDefinition = new FieldDefinition("azeazeaze", "", TypeValue.U16TypeValue);
-            var structField = new StructField("azeazeaze", NumericValue.U16Value(12));
-            var type = TypeValue.StructValue("azeae", new[] {fieldDefinition});
+            var structField     = new StructField("azeazeaze", NumericValue.U16Value(12));
+            var type            = TypeValue.StructValue("azeae", new[] {fieldDefinition});
 
             // Act
-            var actual = _sut.EncodeNested(new StructValue(type, new[] {structField}));
+            var actual    = _sut.EncodeNested(new StructValue(type, new[] {structField}));
             var hexEncode = Convert.ToHexString(actual);
 
             // Assert
@@ -60,13 +60,13 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             });
 
             // Act
-            var actual = _sut.EncodeNested(structValue);
+            var actual    = _sut.EncodeNested(structValue);
             var hexEncode = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hexEncode,
-                Is.EqualTo(
-                    "000000088AC7230489E8000000000000000000005FC2B9DBFFFFFFFF0000000164000025000000000A140EC80FA7EE88000000"));
+                        Is.EqualTo(
+                                   "000000088AC7230489E8000000000000000000005FC2B9DBFFFFFFFF0000000164000025000000000A140EC80FA7EE88000000"));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
                 new FieldDefinition("creator_royalties_percentage", "", TypeValue.BigUintTypeValue)
             });
 
-            var decode = _sut.DecodeTopLevel(data, auction);
+            var decode      = _sut.DecodeTopLevel(data, auction);
             var structValue = decode.ValueOf<StructValue>();
 
             var payment_token = structValue.GetStructField("payment_token").Value;
@@ -105,7 +105,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             Assert.That(payment_token.ValueOf<StructValue>().Fields.Length, Is.EqualTo(2));
 
             var esdtTokenStructValue = payment_token.ValueOf<StructValue>();
-            var token_type = esdtTokenStructValue.GetStructField("token_type").Value;
+            var token_type           = esdtTokenStructValue.GetStructField("token_type").Value;
             Assert.That(token_type.ValueOf<TokenIdentifierValue>().Value, Is.EqualTo(Constants.EGLD));
             var nonce = esdtTokenStructValue.GetStructField("nonce").Value;
             Assert.That(nonce.ValueOf<NumericValue>().Number.IsZero, Is.True);
@@ -125,7 +125,7 @@ namespace Erdcsharp.UnitTests.Domain.Codec
             Assert.That(structValue.GetStructField("original_owner"), Is.Not.Null);
             var original_owner = structValue.GetStructField("original_owner").Value;
             Assert.That(original_owner.ValueOf<Address>().Bech32,
-                Is.EqualTo("erd1lkeja8knfjhkqzvrf3d9hmefxzt75wtf3vlg9m7ccugc8jmnrdpqy7yjeq"));
+                        Is.EqualTo("erd1lkeja8knfjhkqzvrf3d9hmefxzt75wtf3vlg9m7ccugc8jmnrdpqy7yjeq"));
 
             Assert.That(structValue.GetStructField("current_bid"), Is.Not.Null);
             var current_bid = structValue.GetStructField("current_bid").Value;

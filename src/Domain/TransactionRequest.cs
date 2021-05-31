@@ -15,26 +15,26 @@ namespace Erdcsharp.Domain
     public class TransactionRequest
     {
         private static readonly BinaryCodec BinaryCoder = new BinaryCodec();
-        private readonly string _chainId;
-        private const int TransactionVersion = 4;
+        private readonly        string      _chainId;
+        private const           int         TransactionVersion = 4;
 
-        public Account Account { get; }
-        public Address Sender { get; }
-        public long Nonce { get; }
-        public long GasPrice { get; }
-        public TokenAmount Value { get; private set; }
-        public Address Receiver { get; private set; }
-        public GasLimit GasLimit { get; private set; }
-        public string Data { get; private set; }
+        public Account     Account  { get; }
+        public Address     Sender   { get; }
+        public long        Nonce    { get; }
+        public long        GasPrice { get; }
+        public TokenAmount Value    { get; private set; }
+        public Address     Receiver { get; private set; }
+        public GasLimit    GasLimit { get; private set; }
+        public string      Data     { get; private set; }
 
         private TransactionRequest(Account account, NetworkConfig networkConfig)
         {
             _chainId = networkConfig.ChainId;
-            Account = account;
-            Sender = account.Address;
+            Account  = account;
+            Sender   = account.Address;
             Receiver = Address.Zero();
-            Value = TokenAmount.Zero();
-            Nonce = account.Nonce;
+            Value    = TokenAmount.Zero();
+            Nonce    = account.Nonce;
             GasLimit = new GasLimit(networkConfig.MinGasLimit);
             GasPrice = networkConfig.MinGasPrice;
         }
@@ -45,13 +45,9 @@ namespace Erdcsharp.Domain
         }
 
         public static TransactionRequest Create(Account account, NetworkConfig networkConfig, Address receiver,
-            TokenAmount value)
+                                                TokenAmount value)
         {
-            return new TransactionRequest(account, networkConfig)
-            {
-                Receiver = receiver,
-                Value = value
-            };
+            return new TransactionRequest(account, networkConfig) {Receiver = receiver, Value = value};
         }
 
         public static TransactionRequest CreateDeploySmartContractTransactionRequest(
@@ -62,11 +58,11 @@ namespace Erdcsharp.Domain
             params IBinaryType[] args)
         {
             var transaction = Create(account, networkConfig);
-            var data = $"{codeArtifact.Value}@{Constants.ArwenVirtualMachine}@{codeMetadata.Value}";
+            var data        = $"{codeArtifact.Value}@{Constants.ArwenVirtualMachine}@{codeMetadata.Value}";
             if (args.Any())
             {
                 data = args.Aggregate(data,
-                    (c, arg) => c + $"@{Converter.ToHexString(BinaryCoder.EncodeTopLevel(arg))}");
+                                      (c, arg) => c + $"@{Converter.ToHexString(BinaryCoder.EncodeTopLevel(arg))}");
             }
 
             transaction.SetData(data);
@@ -83,11 +79,11 @@ namespace Erdcsharp.Domain
             params IBinaryType[] args)
         {
             var transaction = Create(account, networkConfig, address, value);
-            var data = $"{functionName}";
+            var data        = $"{functionName}";
             if (args.Any())
             {
                 data = args.Aggregate(data,
-                    (c, arg) => c + $"@{Converter.ToHexString(BinaryCoder.EncodeTopLevel(arg))}");
+                                      (c, arg) => c + $"@{Converter.ToHexString(BinaryCoder.EncodeTopLevel(arg))}");
             }
 
             transaction.SetData(data);
@@ -115,15 +111,15 @@ namespace Erdcsharp.Domain
         {
             var transactionRequestDto = new TransactionRequestDto
             {
-                ChainID = _chainId,
-                Data = Data,
-                GasLimit = GasLimit.Value,
-                Receiver = Receiver.Bech32,
-                Sender = Sender.Bech32,
-                Value = Value.ToString(),
-                Version = TransactionVersion,
-                Nonce = Nonce,
-                GasPrice = GasPrice,
+                ChainID   = _chainId,
+                Data      = Data,
+                GasLimit  = GasLimit.Value,
+                Receiver  = Receiver.Bech32,
+                Sender    = Sender.Bech32,
+                Value     = Value.ToString(),
+                Version   = TransactionVersion,
+                Nonce     = Nonce,
+                GasPrice  = GasPrice,
                 Signature = null
             };
 
@@ -133,7 +129,7 @@ namespace Erdcsharp.Domain
         public async Task<Transaction> Send(IElrondProvider provider, Wallet wallet)
         {
             var transactionRequestDto = GetTransactionRequest();
-            var account = wallet.GetAccount();
+            var account               = wallet.GetAccount();
             await account.Sync(provider);
 
             if (Value.Number > account.Balance.Number)
@@ -143,7 +139,7 @@ namespace Erdcsharp.Domain
                 throw new Exception($"Incorrect nonce, account nonce is {account.Nonce}, not {Nonce}");
 
 
-            var json = JsonSerializerWrapper.Serialize(transactionRequestDto);
+            var json    = JsonSerializerWrapper.Serialize(transactionRequestDto);
             var message = Encoding.UTF8.GetBytes(json);
 
             transactionRequestDto.Signature = wallet.Sign(message);
@@ -161,7 +157,7 @@ namespace Erdcsharp.Domain
             var binaryCodec = new BinaryCodec();
             var decodedData = GetDecodedData();
             var data = args.Aggregate(decodedData,
-                (c, arg) => c + $"@{Converter.ToHexString(binaryCodec.EncodeTopLevel(arg))}");
+                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCodec.EncodeTopLevel(arg))}");
             SetData(data);
         }
     }

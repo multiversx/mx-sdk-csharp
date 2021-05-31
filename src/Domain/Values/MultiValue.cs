@@ -31,6 +31,7 @@ namespace Erdcsharp.Domain.Values
 
             return builder.ToString();
         }
+
         public override T ToObject<T>()
         {
             return JsonSerializerWrapper.Deserialize<T>(ToJson());
@@ -44,7 +45,7 @@ namespace Erdcsharp.Domain.Values
                 var value = Values.ToArray()[i];
                 if (value.Value.Type.BinaryType == TypeValue.BinaryTypes.Struct)
                 {
-                    var json = value.Value.ToJson();
+                    var json       = value.Value.ToJson();
                     var jsonObject = JsonSerializerWrapper.Deserialize<object>(json);
                     dic.Add($"Multi_{i}", jsonObject);
                 }

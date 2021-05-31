@@ -18,7 +18,7 @@ namespace Erdcsharp.Domain
         public string TxHash { get; }
 
         private IEnumerable<SmartContractResultDto> _smartContractResult;
-        private string _hyperBlockHash;
+        private string                              _hyperBlockHash;
 
         public Transaction(string hash)
         {
@@ -38,12 +38,12 @@ namespace Erdcsharp.Domain
 
             var scResult = _smartContractResult.ElementAt(smartContractIndex).Data;
 
-            var fields = scResult.Split('@').Where(s => !string.IsNullOrEmpty(s)).ToArray();
-            var result = fields.ElementAt(parameterIndex);
-            var responseBytes = Converter.FromHexString(result);
-            var binaryCodec = new BinaryCodec();
+            var fields          = scResult.Split('@').Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            var result          = fields.ElementAt(parameterIndex);
+            var responseBytes   = Converter.FromHexString(result);
+            var binaryCodec     = new BinaryCodec();
             var decodedResponse = binaryCodec.DecodeTopLevel(responseBytes, type);
-            return (T) decodedResponse;
+            return (T)decodedResponse;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Erdcsharp.Domain
 
         public async Task Sync(IElrondProvider provider)
         {
-            var detail = await provider.GetTransactionDetail(TxHash);
+            var detail      = await provider.GetTransactionDetail(TxHash);
             var transaction = detail.Transaction;
             if (transaction.SmartContractResults != null)
             {
@@ -101,7 +101,7 @@ namespace Erdcsharp.Domain
             }
 
             _hyperBlockHash = transaction.HyperblockHash;
-            Status = transaction.Status;
+            Status          = transaction.Status;
         }
 
         public void EnsureTransactionSuccess()
@@ -134,7 +134,7 @@ namespace Erdcsharp.Domain
 
             if (_smartContractResult != null && _smartContractResult.Any(s => !string.IsNullOrEmpty(s.ReturnMessage)))
             {
-                var returnMessages = _smartContractResult.Select(x => x.ReturnMessage).ToArray();
+                var returnMessages   = _smartContractResult.Select(x => x.ReturnMessage).ToArray();
                 var aggregateMessage = string.Join(Environment.NewLine, returnMessages);
                 throw new TransactionException.TransactionWithSmartContractErrorException(TxHash, aggregateMessage);
             }

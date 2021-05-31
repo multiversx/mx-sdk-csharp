@@ -14,10 +14,10 @@ namespace Erdcsharp.Domain.Codec
 
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
-            var sizeInBytes = (int) BitConverter.ToUInt32(data.Take(BytesSizeOfU32).ToArray(), 0);
+            var sizeInBytes = (int)BitConverter.ToUInt32(data.Take(BytesSizeOfU32).ToArray(), 0);
             if (BitConverter.IsLittleEndian)
             {
-                sizeInBytes = (int) BitConverter.ToUInt32(BitConverter.GetBytes(sizeInBytes).Reverse().ToArray(), 0);
+                sizeInBytes = (int)BitConverter.ToUInt32(BitConverter.GetBytes(sizeInBytes).Reverse().ToArray(), 0);
             }
 
             var payload = data.Slice(BytesSizeOfU32, BytesSizeOfU32 + sizeInBytes);
@@ -32,8 +32,8 @@ namespace Erdcsharp.Domain.Codec
 
         public byte[] EncodeNested(IBinaryType value)
         {
-            var bytes = value.ValueOf<BytesValue>();
-            var buffer = new List<byte>();
+            var bytes       = value.ValueOf<BytesValue>();
+            var buffer      = new List<byte>();
             var lengthBytes = BitConverter.GetBytes(bytes.GetLength());
             if (BitConverter.IsLittleEndian)
             {

@@ -12,7 +12,7 @@ namespace Erdcsharp.Domain.Codec
         {
             // We don't check the size of the buffer, we just read 32 bytes.
             var addressBytes = data.Take(32).ToArray();
-            var value = Address.FromBytes(addressBytes);
+            var value        = Address.FromBytes(addressBytes);
             return (value, addressBytes.Length);
         }
 

@@ -14,13 +14,13 @@ namespace Erdcsharp.Provider.Dtos
 
     public class EsdtItemDto
     {
-        public string Balance { get; set; }
-        public string Creator { get; set; }
-        public string Name { get; set; }
-        public ulong Nonce { get; set; }
-        public string Hash { get; set; }
-        public string Royalties { get; set; }
-        public string TokenIdentifier { get; set; }
-        public string[] Uris { get; set; }
+        public string   Balance         { get; set; }
+        public string   Creator         { get; set; }
+        public string   Name            { get; set; }
+        public ulong    Nonce           { get; set; }
+        public string   Hash            { get; set; }
+        public string   Royalties       { get; set; }
+        public string   TokenIdentifier { get; set; }
+        public string[] Uris            { get; set; }
     }
 }

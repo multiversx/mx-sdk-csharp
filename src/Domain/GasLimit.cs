@@ -40,7 +40,7 @@ namespace Erdcsharp.Domain
             var value = networkConfig.MinGasLimit + 6000000;
             if (string.IsNullOrEmpty(transaction.Data))
                 return new GasLimit(value);
-            
+
             var bytes = Convert.FromBase64String(transaction.Data);
             value += networkConfig.GasPerDataByte * bytes.Length;
 

@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net5.0;net461;net47;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>elrond-sdk-erdsharp</PackageId>
-    <Authors>GUILLIN Yannick</Authors>
+    <Authors></Authors>
     <Product />
     <PackageTags>elrond</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
@@ -14,7 +14,7 @@
     <Company />
     <Version>1.0.0</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE">
+    <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

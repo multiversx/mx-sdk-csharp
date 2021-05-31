@@ -9,15 +9,15 @@ namespace Erdcsharp.Domain
     public class Address : BaseBinaryValue
     {
         // The human-readable-part of the bech32 addresses.
-        private const string Hrp = Constants.Hrp;
-        private const int PubKeyLength = 32;
+        private const string Hrp                          = Constants.Hrp;
+        private const int    PubKeyLength                 = 32;
         private const string SmartContractHexPubKeyPrefix = "0000000000000000";
 
         private Address(string hex, string bech32)
             : base(TypeValue.AddressValue)
         {
             Bech32 = bech32.ToLowerInvariant();
-            Hex = hex.ToUpperInvariant();
+            Hex    = hex.ToUpperInvariant();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Erdcsharp.Domain
         /// <returns>Address</returns>
         public static Address FromBytes(byte[] data)
         {
-            var hex = Converter.ToHexString(data);
+            var hex    = Converter.ToHexString(data);
             var bech32 = Bech32Engine.Encode(Hrp, data);
             return new Address(hex, bech32);
         }

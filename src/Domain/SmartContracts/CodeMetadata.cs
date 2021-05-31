@@ -5,24 +5,24 @@ namespace Erdcsharp.Domain.SmartContracts
 {
     public class CodeMetadata
     {
-        private readonly bool _upgradeable;
-        private readonly bool _readable;
-        private readonly bool _payable;
-        public string Value { get; }
+        private readonly bool   _upgradeable;
+        private readonly bool   _readable;
+        private readonly bool   _payable;
+        public           string Value { get; }
 
         public CodeMetadata(bool upgradeable, bool readable, bool payable)
         {
             _upgradeable = upgradeable;
-            _readable = readable;
-            _payable = payable;
-            Value = Converter.ToHexString(ToByte());
+            _readable    = readable;
+            _payable     = payable;
+            Value        = Converter.ToHexString(ToByte());
         }
 
         // Converts the metadata to the protocol-friendly representation.
         private byte[] ToByte()
         {
             ByteZero byteZero = 0;
-            ByteOne byteOne = 0;
+            ByteOne  byteOne  = 0;
 
             if (_upgradeable)
             {
@@ -39,7 +39,7 @@ namespace Erdcsharp.Domain.SmartContracts
                 byteOne |= ByteOne.Payable;
             }
 
-            var bytes = new[] {(byte) byteZero, (byte) byteOne};
+            var bytes = new[] {(byte)byteZero, (byte)byteOne};
 
             return bytes;
         }
@@ -49,15 +49,15 @@ namespace Erdcsharp.Domain.SmartContracts
         private enum ByteZero : byte
         {
             Upgradeable = 1,
-            Reserved2 = 2,
-            Readable = 4
+            Reserved2   = 2,
+            Readable    = 4
         }
 
         [Flags]
         private enum ByteOne : byte
         {
             Reserved1 = 1,
-            Payable = 2
+            Payable   = 2
         }
     }
 }

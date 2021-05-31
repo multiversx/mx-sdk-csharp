@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Erdcsharp.UnitTests.Domain.Codec
 {
-    [TestFixture]
+    [TestFixture(Category = "UnitTests")]
     public class MultiBinaryCodecTests
     {
         private MultiBinaryCodec _sut;
@@ -23,13 +23,13 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var value = MultiValue.From(
-                NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
-                NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
-            );
+                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
+                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
+                                       );
 
             // Act
             var actual = _sut.EncodeTopLevel(value);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo("00000008016345785D8A0000000000088AC7230489E80000"));
@@ -40,13 +40,13 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var value = MultiValue.From(
-                NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
-                NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
-            );
+                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
+                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
+                                       );
 
             // Act
             var actual = _sut.EncodeNested(value);
-            var hex = Convert.ToHexString(actual);
+            var hex    = Convert.ToHexString(actual);
 
             // Assert
             Assert.That(hex, Is.EqualTo("00000008016345785D8A0000000000088AC7230489E80000"));
@@ -56,15 +56,15 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         public void DecodeTopLevel()
         {
             // Arrange
-            var a = "00000008016345785D8A0000";
-            var b = "000000088AC7230489E80000";
+            var a     = "00000008016345785D8A0000";
+            var b     = "000000088AC7230489E80000";
             var bytes = new List<byte>();
             bytes.AddRange(Convert.FromHexString(a));
             bytes.AddRange(Convert.FromHexString(b));
 
             //// Act
             var actual = _sut.DecodeTopLevel(bytes.ToArray(),
-                TypeValue.MultiValue(new[] {TypeValue.BigUintTypeValue, TypeValue.BigUintTypeValue}));
+                                             TypeValue.MultiValue(new[] {TypeValue.BigUintTypeValue, TypeValue.BigUintTypeValue}));
 
             var values = actual.ValueOf<MultiValue>().Values;
 
