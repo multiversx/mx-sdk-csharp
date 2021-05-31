@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using dotnetstandard_bip32;
 
 namespace Erdcsharp.Domain.Helper
 {
@@ -51,16 +50,11 @@ namespace Erdcsharp.Domain.Helper
 
         public static string ToHexString(byte[] bytes)
         {
-            var          result      = new StringBuilder(bytes.Length * 2);
-            const string hexAlphabet = "0123456789ABCDEF";
+            var hex = BitConverter
+                     .ToString(bytes)
+                     .Replace("-", "");
 
-            foreach (var b in bytes)
-            {
-                result.Append(hexAlphabet[b >> 4]);
-                result.Append(hexAlphabet[b & 0xF]);
-            }
-
-            return result.ToString();
+            return hex;
         }
 
         public static byte[] FromHexString(string hex)

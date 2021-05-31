@@ -15,7 +15,7 @@ using Erdcsharp.Provider.Dtos;
 
 namespace Erdcsharp.Console
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -33,7 +33,7 @@ namespace Erdcsharp.Console
 
             //await CreatingValueTransferTransactions(provider, constants, wallet);
 
-            var token = await CreateNFTTokenThenTransfer(
+            var token = await CreateNftTokenThenTransfer(
                                                          new EsdtTokenManager(provider, networkConfig),
                                                          provider,
                                                          wallet);
@@ -312,7 +312,7 @@ namespace Erdcsharp.Console
             return smartContractAddress;
         }
 
-        private static async Task<EsdtToken> CreateNFTTokenThenTransfer(
+        private static async Task<EsdtToken> CreateNftTokenThenTransfer(
             IEsdtTokenManager tokenManager,
             IElrondProvider provider,
             Wallet wallet)

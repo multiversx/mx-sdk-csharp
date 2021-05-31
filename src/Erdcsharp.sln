@@ -34,6 +34,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erdcsharp.IntegrationTests", "..\tests\Erdcsharp.IntegrationTests\Erdcsharp.IntegrationTests.csproj", "{E48A4A6E-37D7-4878-82F2-A6CB7E9EC06F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{AFD4B8FF-CD82-4B93-9070-DABAB3F7774A}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\address.md = ..\docs\address.md
+		..\docs\index.md = ..\docs\index.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

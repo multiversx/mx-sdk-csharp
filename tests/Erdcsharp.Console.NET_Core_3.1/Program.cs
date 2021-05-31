@@ -7,10 +7,10 @@ using Erdcsharp.Provider;
 
 namespace Erdcsharp.Console.NET_Core_3._1
 {
-    public class Program
+    public static class Program
     {
-        public const string AliceSecretHex = "413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9";
-        public const string BobBech32      = "erd1spyavw0956vq68xj8y4tenjpq2wd5a9p2c6j8gsz7ztyrnpxrruqzu66jx";
+        private const string AliceSecretHex = "413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9";
+        private const string BobBech32      = "erd1spyavw0956vq68xj8y4tenjpq2wd5a9p2c6j8gsz7ztyrnpxrruqzu66jx";
 
         public static async Task Main(string[] args)
         {

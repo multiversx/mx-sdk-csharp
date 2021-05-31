@@ -108,7 +108,7 @@ namespace Erdcsharp.IntegrationTests
             // Set the 'ESDTRoleNFTCreate' special role to alice
             await _tokenManager.SetSpecialRole(wallet, tokenIdentifier,
                                                Constants.EsdtSftSpecialRoles.EsdtRoleNftCreate,
-                                               Constants.EsdtSftSpecialRoles.EsdtRoleNftCreate);
+                                               Constants.EsdtSftSpecialRoles.EsdtRoleNftAddQuantity);
 
             // Create the 'My foo NFT' NFT token
             var tokenId = await _tokenManager.CreateNftToken(

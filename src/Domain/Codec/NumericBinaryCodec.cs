@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using dotnetstandard_bip32;
 using Erdcsharp.Domain.Helper;
 using Erdcsharp.Domain.Values;
 
