@@ -1,5 +1,7 @@
-# Basic usage
-## Load a JSON Key file and create a `Wallet` instance
+# [Documentation](./index.md)
+## Basic usage
+
+### Load a JSON Key file and create a Wallet instance
 Here's a key file JSON for Alice account, do not use the key file in mainnet.
 ```json
 {
@@ -36,7 +38,7 @@ var wallet = Wallet.DeriveFromKeyFile(KeyFile.FromFilePath(filePath), password);
 For more usage please, see the [WalletTest.cs](../tests/Erdcsharp.Tests/Domain/WalletTests.cs) file.
 
 
-## Create an `Account`, `Address`, `TokenAmount` instance.
+### Create an Account, Address and TokenAmount instance
 An [`Account`](../src/Domain/Account.cs) instance is build from an [`Address`](../src/Domain/Address.cs)
 
 We have multiple way to build an [`Address`](../src/Domain/Address.cs)
@@ -92,3 +94,8 @@ await tx.AwaitExecuted(_provider);
 ```
 
 ### Fetch transaction detail from the network
+
+We can the transaction detail from the network with the provider by calling the `GetTransactionDetail` method.
+```csharp
+var transactionDetail = await _provider.GetTransactionDetail("ca5f97d1542307ae75086c6284ada1ed5db0dcc639e2ac2ad4fa59d3949c5e3a");
+```

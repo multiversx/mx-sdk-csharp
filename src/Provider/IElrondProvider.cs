@@ -53,8 +53,8 @@ namespace Erdcsharp.Provider
         /// This endpoint allows one to query the details of a Transaction.
         /// </summary>
         /// <param name="txHash">The transaction hash</param>
-        /// <returns><see cref="TransactionResponseData"/></returns>
-        Task<TransactionResponseData> GetTransactionDetail(string txHash);
+        /// <returns><see cref="TransactionDto"/></returns>
+        Task<TransactionDto> GetTransactionDetail(string txHash);
 
         /// <summary>
         /// This endpoint allows one to estimate the cost of a transaction.

@@ -1,19 +1,21 @@
 # Documentation
 
-* [Basic usage](basic.md)
-  * Load a JSON Key file and create a `Wallet` instance
-  * Create an `Account`, `Address`, `TokenAmount` instance.
+## [Basic usage](basic.md)
+  * Load a JSON Key file and create a Wallet instance
+  * Create an Account, Address and TokenAmount instance
   * Send a basic transaction
     * Build and sign a transaction
     * Fetch transaction detail from the network
-* [Advanced usage](advanced.md)
+## [Advanced usage](advanced.md)
   * Smart contract interactions (Deploy, Call, Query)
     * Compute a smart contract deployment address
   * ESDT (Elrond Standard Digital Token) interraction
     * NFT (Non-fungible tokens)
     * SFT (Semi-fungible tokens)
  
-## Quick start
+--- 
+
+### Quick start
 This is a quick start sample with minimal dependencies.
 
 #### Install .NET

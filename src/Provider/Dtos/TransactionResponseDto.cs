@@ -1,10 +1,16 @@
 ﻿namespace Erdcsharp.Provider.Dtos
 {
+    /// <summary>
+    /// Gateway transaction response
+    /// </summary>
     public class TransactionResponseData
     {
         public TransactionDto Transaction { get; set; }
     }
 
+    /// <summary>
+    /// Transaction detail
+    /// </summary>
     public class TransactionDto
     {
         public string                   Type                              { get; set; }

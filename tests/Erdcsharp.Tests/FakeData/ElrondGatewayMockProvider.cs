@@ -25,25 +25,21 @@ namespace Erdcsharp.UnitTests.FakeData
         public void SetTransactionDetailResult(string finalStatus = "success", SmartContractResultDto[] scResult = null)
         {
             var callNumber = 0;
-            var transactionResponse = new TransactionResponseData()
-            {
-                Transaction = new TransactionDto()
-            };
-
+            var transactionResponse = new TransactionDto();
 
             MockProvider.Setup(s => s.GetTransactionDetail(It.IsAny<string>())).ReturnsAsync(() =>
             {
                 switch (callNumber)
                 {
                     case 0:
-                        transactionResponse.Transaction.Status = "pending";
+                        transactionResponse.Status = "pending";
                         break;
                     case 1:
-                        transactionResponse.Transaction.Status               = finalStatus;
-                        transactionResponse.Transaction.SmartContractResults = scResult;
+                        transactionResponse.Status               = finalStatus;
+                        transactionResponse.SmartContractResults = scResult;
                         break;
                     case 2:
-                        transactionResponse.Transaction.HyperblockHash = Guid.NewGuid().ToString();
+                        transactionResponse.HyperblockHash = Guid.NewGuid().ToString();
                         break;
                 }
 

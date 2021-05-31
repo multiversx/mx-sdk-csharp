@@ -93,8 +93,7 @@ namespace Erdcsharp.Domain
 
         public async Task Sync(IElrondProvider provider)
         {
-            var detail      = await provider.GetTransactionDetail(TxHash);
-            var transaction = detail.Transaction;
+            var transaction = await provider.GetTransactionDetail(TxHash);
             if (transaction.SmartContractResults != null)
             {
                 _smartContractResult = transaction.SmartContractResults.OrderByDescending(s => s.Nonce).ToList();

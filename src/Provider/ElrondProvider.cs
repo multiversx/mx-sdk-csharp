@@ -107,14 +107,14 @@ namespace Erdcsharp.Provider
             return result.Data;
         }
 
-        public async Task<TransactionResponseData> GetTransactionDetail(string txHash)
+        public async Task<TransactionDto> GetTransactionDetail(string txHash)
         {
             var response = await _httpClient.GetAsync($"transaction/{txHash}?withResults=true");
 
             var content = await response.Content.ReadAsStringAsync();
             var result  = JsonSerializerWrapper.Deserialize<ElrondGatewayResponseDto<TransactionResponseData>>(content);
             result.EnsureSuccessStatusCode();
-            return result.Data;
+            return result.Data.Transaction;
         }
     }
 }
