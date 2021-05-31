@@ -19,7 +19,7 @@ namespace Erdcsharp.UnitTests.Domain
             var zero = TokenAmount.Zero();
 
             // Assert
-            Assert.That(zero.Number.IsZero, Is.True);
+            Assert.That(zero.Value.IsZero, Is.True);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Erdcsharp.UnitTests.Domain
             var tokenAmount = TokenAmount.From("1000000000000000000");
 
             // Assert
-            Assert.That(tokenAmount.Number, Is.EqualTo(BigInteger.Parse("1000000000000000000")));
+            Assert.That(tokenAmount.Value, Is.EqualTo(BigInteger.Parse("1000000000000000000")));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Erdcsharp.UnitTests.Domain
             var oneEgld = TokenAmount.EGLD("1");
 
             // Assert
-            Assert.That(oneEgld.Number, Is.EqualTo(BigInteger.Parse("1000000000000000000")));
+            Assert.That(oneEgld.Value, Is.EqualTo(BigInteger.Parse("1000000000000000000")));
         }
 
         [Test]

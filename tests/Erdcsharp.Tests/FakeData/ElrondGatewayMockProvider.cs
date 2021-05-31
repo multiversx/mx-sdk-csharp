@@ -7,21 +7,18 @@ namespace Erdcsharp.UnitTests.FakeData
 {
     public class ElrondGatewayMockProvider
     {
-        public Mock<IElrondProvider> MockProvider;
+        public readonly Mock<IElrondProvider> MockProvider;
 
         public ElrondGatewayMockProvider()
         {
             MockProvider = new Mock<IElrondProvider>();
             MockProvider.Setup(p => p.GetAccount(It.IsAny<string>())).ReturnsAsync((string address) =>
-                                                                                       new AccountDataDto
+                                                                                       new AccountDto
                                                                                        {
-                                                                                           Account = new AccountDto
-                                                                                           {
-                                                                                               Address  = address,
-                                                                                               Balance  = "99882470417129999997",
-                                                                                               Nonce    = 2555546,
-                                                                                               Username = "elrond"
-                                                                                           }
+                                                                                           Address  = address,
+                                                                                           Balance  = "99882470417129999997",
+                                                                                           Nonce    = 2555546,
+                                                                                           Username = "elrond"
                                                                                        });
         }
 

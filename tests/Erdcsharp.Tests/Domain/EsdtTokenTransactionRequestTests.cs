@@ -50,7 +50,7 @@ namespace Erdcsharp.UnitTests.Domain
             Assert.That(transaction.Sender, Is.EqualTo(_account.Address));
             Assert.That(Encoding.UTF8.GetString(Convert.FromBase64String(transaction.Data)), Is.EqualTo("issueNonFungible@546F6B656E206E616D65@544B4E"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(60000000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(50000000000000000.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(50000000000000000.ToString()));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Erdcsharp.UnitTests.Domain
             Assert.That(Encoding.UTF8.GetString(Convert.FromBase64String(transaction.Data)),
                         Is.EqualTo("issueSemiFungible@546F6B656E206E616D65@544B4E"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(60000000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(50000000000000000.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(50000000000000000.ToString()));
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Erdcsharp.UnitTests.Domain
             Assert.That(Encoding.UTF8.GetString(Convert.FromBase64String(transaction.Data)),
                         Is.EqualTo("issue@416C696365546F6B656E73@414C43@F3D7B4C0@06"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(60000000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(50000000000000000.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(50000000000000000.ToString()));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace Erdcsharp.UnitTests.Domain
             Assert.That(Encoding.UTF8.GetString(Convert.FromBase64String(transaction.Data)),
                         Is.EqualTo("ESDTTransfer@414C432D363235386432@0C"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(500000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(0.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(0.ToString()));
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace Erdcsharp.UnitTests.Domain
                         Is.EqualTo(
                                    "ESDTNFTTransfer@414C432D363235386432@0C@01@8049D639E5A6980D1CD2392ABCCE41029CDA74A1563523A202F09641CC2618F8"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(1000000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(0.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(0.ToString()));
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace Erdcsharp.UnitTests.Domain
                         Is.EqualTo(
                                    $"setSpecialRole@414C432D363235386432@{_receiver.Hex}@45534454526F6C654E4654437265617465@45534454526F6C654E46544275726E"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(60000000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(0.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(0.ToString()));
         }
 
         [Test]
@@ -215,7 +215,7 @@ namespace Erdcsharp.UnitTests.Domain
                         Is.EqualTo(
                                    $"ESDTNFTCreate@414C432D363235386432@01@42656175746966756C20736F6E67@1D4C@@4172746973743A46616D6F7573206172746973743B4475726174696F6E3A30332E3137@68747470733A2F2F777777772E746F5F646563656E7472616C697A65645F73746F726167652F736F6E672E6D7033"));
             Assert.That(transaction.GasLimit.Value, Is.EqualTo(10404000));
-            Assert.That(transaction.Value.Number.ToString(), Is.EqualTo(0.ToString()));
+            Assert.That(transaction.Value.Value.ToString(), Is.EqualTo(0.ToString()));
         }
     }
 }

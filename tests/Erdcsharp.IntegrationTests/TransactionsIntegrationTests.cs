@@ -50,9 +50,9 @@ namespace Erdcsharp.IntegrationTests
             await alice.Sync(_provider);
             var newBalanceOfAlice = alice.Balance;
 
-            Assert.That(newBalanceOfBob.Number, Is.EqualTo(initialBalanceOfBob.Number + TokenAmount.EGLD("4").Number));
-            Assert.That(newBalanceOfAlice.Number,
-                        Is.EqualTo(initialBalanceOfAlice.Number + TokenAmount.EGLD("4").Number));
+            Assert.That(newBalanceOfBob.Value, Is.EqualTo(initialBalanceOfBob.Value + TokenAmount.EGLD("4").Value));
+            Assert.That(newBalanceOfAlice.Value,
+                        Is.EqualTo(initialBalanceOfAlice.Value + TokenAmount.EGLD("4").Value));
         }
 
         [Test(Description = "Send a 1 EGLD transaction from alice to alice await await")]

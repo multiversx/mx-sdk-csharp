@@ -40,7 +40,7 @@ namespace Erdcsharp.IntegrationTests
             var tokenIdentifier = await _tokenManager.IssueFungibleToken(
                                                                          wallet,
                                                                          token,
-                                                                         initialSupply.Number);
+                                                                         initialSupply.Value);
 
             // ex : MTCK-0accc7
             Assert.That(tokenIdentifier.StartsWith(token.Ticker), "Token identifier should start with the Ticker");

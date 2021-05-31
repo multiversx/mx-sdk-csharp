@@ -3,8 +3,7 @@
 * [Basic usage](basic.md)
   * Load a JSON Key file and create a `Wallet` instance
   * Create an `Account`, `Address`, `TokenAmount` instance.
-  * Sign a `TransactionRequest` object
-  * Basic fund transfer transaction
+  * Send a basic transaction
     * Build and sign a transaction
     * Fetch transaction detail from the network
 * [Advanced usage](advanced.md)

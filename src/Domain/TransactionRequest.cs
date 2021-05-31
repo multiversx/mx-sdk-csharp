@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Erdcsharp.Domain.Codec;
@@ -132,7 +131,7 @@ namespace Erdcsharp.Domain
             var account               = wallet.GetAccount();
             await account.Sync(provider);
 
-            if (Value.Number > account.Balance.Number)
+            if (Value.Value > account.Balance.Value)
                 throw new Exception($"Insufficient funds, required : {Value} and got {account.Balance}");
 
             if (Nonce != account.Nonce)

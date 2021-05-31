@@ -7,19 +7,19 @@ namespace Erdcsharp.Domain
     public class TokenAmount
     {
         public Token      Token  { get; }
-        public BigInteger Number { get; }
+        public BigInteger Value { get; }
 
         private TokenAmount(long value, Token token)
         {
             Token  = token;
-            Number = new BigInteger(value);
+            Value = new BigInteger(value);
         }
 
         private TokenAmount(string value, Token token)
         {
             Token  = token;
-            Number = BigInteger.Parse(value);
-            if (Number.Sign == -1)
+            Value = BigInteger.Parse(value);
+            if (Value.Sign == -1)
                 throw new InvalidTokenAmountException(value);
         }
 
@@ -39,7 +39,7 @@ namespace Erdcsharp.Domain
         /// <returns></returns>
         public string ToDenominated()
         {
-            var padded = Number.ToString().PadLeft(Token.DecimalPrecision, '0');
+            var padded = Value.ToString().PadLeft(Token.DecimalPrecision, '0');
 
             var start = (padded.Length - Token.DecimalPrecision);
             start = start < 0 ? 0 : start;
@@ -103,7 +103,7 @@ namespace Erdcsharp.Domain
 
         public override string ToString()
         {
-            return Number.ToString();
+            return Value.ToString();
         }
     }
 }

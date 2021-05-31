@@ -23,8 +23,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var value = MultiValue.From(
-                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
-                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
+                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Value),
+                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Value)
                                        );
 
             // Act
@@ -40,8 +40,8 @@ namespace Erdcsharp.UnitTests.Domain.Codec
         {
             // Arrange
             var value = MultiValue.From(
-                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Number),
-                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Number)
+                                        NumericValue.BigUintValue(TokenAmount.From("100000000000000000").Value),
+                                        NumericValue.BigUintValue(TokenAmount.From("10000000000000000000").Value)
                                        );
 
             // Act

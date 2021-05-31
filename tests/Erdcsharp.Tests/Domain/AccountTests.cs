@@ -39,15 +39,12 @@ namespace Erdcsharp.UnitTests.Domain
             // Arrange
             var account = new Account(Address.From(TestData.AliceHex));
             var address = account.Address.Bech32;
-            _mockProvider.Setup(p => p.GetAccount(It.IsAny<string>())).ReturnsAsync(new AccountDataDto
+            _mockProvider.Setup(p => p.GetAccount(It.IsAny<string>())).ReturnsAsync(new AccountDto
             {
-                Account = new AccountDto
-                {
-                    Address  = address,
-                    Balance  = "99882470417129999997",
-                    Nonce    = 2555546,
-                    Username = "elrond"
-                }
+                Address  = address,
+                Balance  = "99882470417129999997",
+                Nonce    = 2555546,
+                Username = "elrond"
             });
 
             // Act
