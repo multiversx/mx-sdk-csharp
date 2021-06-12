@@ -59,7 +59,6 @@ namespace Erdcsharp.IntegrationTests
             await account.Sync(_provider);
 
             var token = Token.ESDT_NFT("MYNFTTOKEN", "MYNFT");
-
             var tokenIdentifier = await _tokenManager.IssueNonFungibleToken(
                                                                             wallet,
                                                                             token.Name,
