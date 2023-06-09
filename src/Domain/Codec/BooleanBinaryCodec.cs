@@ -23,6 +23,7 @@ namespace Erdcsharp.Domain.Codec
             {
                 throw new BinaryCodecException("should be a buffer of size <= 1");
             }
+            if(data.Length == 0) return new BooleanValue(false);
 
             var firstByte = data[0];
             return new BooleanValue(firstByte == True);
